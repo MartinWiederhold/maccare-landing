@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/vs-cleanmymac", "destination": "/vs-cleanmymac.html" }
+  ]
+}
