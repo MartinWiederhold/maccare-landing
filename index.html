@@ -741,17 +741,21 @@
         .protected-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 16px;
         }
         .protected-item {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
             font-size: 15px;
             font-weight: 500;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 12px 16px;
         }
         .protected-item .shield {
-            width: 28px; height: 28px;
+            width: 32px; height: 32px;
             background: rgba(74,222,128,0.12);
             border-radius: 8px;
             display: flex;
@@ -1117,12 +1121,12 @@
             <p data-i18n="audio_p2">One toggle. Total protection. Clean your Mac without fear of breaking your setup.</p>
         </div>
         <div class="protected-list">
-            <div class="protected-item"><div class="shield">🔒</div> Logic Pro: Plugins, Preferences & Caches</div>
-            <div class="protected-item"><div class="shield">🔒</divdata-i18n="audio_item2"> Native Instruments: Kontakt, Komplete</div>
-            <div class="protected-item"><div class="shield">🔒</div> Soundtoys, Waves, FabFilter: Effects & Presets</div>
-            <div class="protected-item"><div class="shield">🔒</div> AudioUnitCache: No more plugin re-validation</div>
-            <div class="protected-item"><div class="shield">🔒</div> Ableton, Cubase, Pro Tools: Settings & Data</div>
-            <div class="protected-item"><div class="shield">🔒</div> All Sample Libraries: NI, Spectrasonics, Steinberg</div>
+            <div class="protected-item"><div class="shield">🔒</div><span data-i18n="audio_item1">Logic Pro: Plugins, Preferences & Caches</span></div>
+            <div class="protected-item"><div class="shield">🔒</div><span data-i18n="audio_item2">Native Instruments: Kontakt, Komplete</span></div>
+            <div class="protected-item"><div class="shield">🔒</div><span data-i18n="audio_item3">Soundtoys, Waves, FabFilter: Effects & Presets</span></div>
+            <div class="protected-item"><div class="shield">🔒</div><span data-i18n="audio_item4">AudioUnitCache: No more plugin re-validation</span></div>
+            <div class="protected-item"><div class="shield">🔒</div><span data-i18n="audio_item5">Ableton, Cubase, Pro Tools: Settings & Data</span></div>
+            <div class="protected-item"><div class="shield">🔒</div><span data-i18n="audio_item6">All Sample Libraries: NI, Spectrasonics, Steinberg</span></div>
         </div>
     </div>
 </section>
