@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MacCare — Your Mac, Safely Cleaned</title>
-    <meta name="description" content="MacCare is the only Mac cleaner with Audio Producer Mode. Protects Logic Pro, Kontakt, and all your plugins while cleaning up to 20GB of junk. Built by a music producer who got burned by CleanMyMac.">
-    <meta name="keywords" content="mac cleaner, cleanmymac alternative, mac cleanup tool, mac junk cleaner, audio producer mac, logic pro cleaner">
+    <title>MacCare — Free Up Storage & Speed Up Your Mac</title>
+    <meta name="description" content="MacCare cleans up to 20GB of junk from your Mac in minutes. Free up storage, speed up your Mac, remove old caches and duplicates — safely. 3x cheaper than CleanMyMac. Apple-notarized, 7-day free trial.">
+    <meta name="keywords" content="mac cleaner, cleanmymac alternative, free up mac storage, speed up mac, mac cleanup tool, mac junk cleaner, mac storage full, clear mac cache">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -231,89 +231,323 @@
             animation: fadeInUp 0.8s ease-out 0.4s both;
         }
 
-        /* ═══ APP PREVIEW ═══ */
-        .app-preview {
-            max-width: 1000px;
-            margin: -20px auto 0;
+        /* ═══ MACBOOK MOCKUP ═══ */
+        .macbook-container {
+            max-width: 980px;
+            margin: -10px auto 0;
             padding: 0 24px;
             animation: fadeInUp 1s ease-out 0.5s both;
+            perspective: 1200px;
         }
-        .app-preview .window {
-            background: linear-gradient(170deg, #1A0B2E, #2D1B4E);
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.08);
-            overflow: hidden;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.5), 0 0 80px rgba(217,70,239,0.08);
+        .macbook {
+            position: relative;
         }
-        .window-bar {
-            padding: 12px 16px;
-            display: flex;
-            gap: 8px;
-            background: rgba(0,0,0,0.3);
+        /* Screen bezel */
+        .macbook-screen {
+            background: #1a1a1a;
+            border-radius: 16px 16px 0 0;
+            padding: 12px 12px 0 12px;
+            position: relative;
+            box-shadow: 0 -2px 20px rgba(0,0,0,0.3);
         }
-        .window-dot {
-            width: 12px; height: 12px;
+        /* Webcam notch */
+        .macbook-screen::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px; height: 6px;
+            background: #333;
             border-radius: 50%;
+            box-shadow: 0 0 0 1px #444;
         }
-        .window-dot.r { background: #FF5F57; }
-        .window-dot.y { background: #FFBD2E; }
-        .window-dot.g { background: #28C840; }
-        .window-content {
-            padding: 40px;
+        /* The actual screen content */
+        .macbook-display {
+            background: linear-gradient(170deg, #0f0720, #1A0B2E, #2D1B4E);
+            border-radius: 6px 6px 0 0;
+            overflow: hidden;
+            aspect-ratio: 16 / 10;
+            position: relative;
+        }
+        /* Bottom hinge/base */
+        .macbook-base {
+            background: linear-gradient(180deg, #2a2a2a, #1a1a1a);
+            height: 14px;
+            border-radius: 0 0 8px 8px;
+            position: relative;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+        }
+        .macbook-base::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 80px; height: 4px;
+            background: #333;
+            border-radius: 0 0 4px 4px;
+        }
+        /* Bottom lip/desk shadow */
+        .macbook-shadow {
+            height: 20px;
+            background: radial-gradient(ellipse at center, rgba(0,0,0,0.25) 0%, transparent 70%);
+            margin-top: -2px;
+        }
+        /* Glow behind laptop */
+        .macbook-glow {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%; height: 80%;
+            background: radial-gradient(ellipse, rgba(217,70,239,0.12) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(40px);
+        }
+
+        /* ═══ ANIMATED APP SCREENS (inside MacBook) ═══ */
+        .screen-carousel { width: 100%; height: 100%; position: relative; }
+        .app-screen {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: grid;
+            grid-template-columns: 130px 1fr;
+            font-size: 10px;
+            opacity: 0;
+            animation: screenCycle 16s ease-in-out infinite;
+        }
+        .screen-1 { animation-delay: 0s; }
+        .screen-2 { animation-delay: 4s; }
+        .screen-3 { animation-delay: 8s; }
+        .screen-4 { animation-delay: 12s; }
+
+        @keyframes screenCycle {
+            0% { opacity: 0; }
+            3% { opacity: 1; }
+            23% { opacity: 1; }
+            27% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        /* Sidebar */
+        .app-sidebar {
+            background: rgba(0,0,0,0.3);
+            padding: 12px 8px;
+            border-right: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            overflow: hidden;
+        }
+        .app-brand {
+            font-size: 11px;
+            color: white;
+            padding: 4px 6px 10px;
+            line-height: 1.3;
+        }
+        .sb {
+            padding: 4px 8px;
+            border-radius: 5px;
+            color: rgba(255,255,255,0.55);
+            font-size: 9.5px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .sb.active {
+            background: rgba(217,70,239,0.2);
+            color: white;
+        }
+        .sb.dim { opacity: 0.4; }
+
+        /* Main area */
+        .app-main {
+            padding: 10px 14px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .sc-header {
+            font-size: 10px;
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 8px;
+        }
+
+        /* ── Screen 1: Smart Care Landing ── */
+        .sc-landing {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto 1fr auto auto;
+            gap: 6px;
+            flex: 1;
+        }
+        .sc-landing .sc-header { grid-column: 1 / -1; }
+        .sc-laptop-icon {
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 400px;
+            font-size: 48px;
+            grid-row: 2;
         }
-        .window-mockup {
-            display: grid;
-            grid-template-columns: 200px 1fr;
-            gap: 24px;
-            width: 100%;
+        .sc-right { grid-row: 2; padding: 8px 4px; }
+        .sc-title { font-size: 16px; font-weight: 300; color: white; margin-bottom: 2px; }
+        .sc-desc { font-size: 8px; color: rgba(255,255,255,0.4); margin-bottom: 8px; line-height: 1.4; }
+        .sc-feature { display: flex; align-items: center; gap: 6px; font-size: 9px; color: white; padding: 3px 0; }
+        .sc-fi { width: 20px; height: 20px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+        .sc-scan-btn {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: center;
+            padding: 6px 0;
         }
-        .mockup-sidebar {
+        .sc-scan-inner {
+            width: 52px; height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-magenta));
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 10px; font-weight: 600;
+            box-shadow: 0 4px 25px rgba(217,70,239,0.45);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        .sc-audio-badge {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-size: 8px;
+            color: var(--green);
+            background: rgba(74,222,128,0.08);
+            padding: 3px 10px;
+            border-radius: 20px;
+            width: fit-content;
+            margin: 0 auto 4px;
+        }
+
+        /* ── Screen 2: Scanning ── */
+        .sc-scanning {
             display: flex;
             flex-direction: column;
-            gap: 4px;
-        }
-        .mockup-sidebar-item {
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 13px;
-            color: var(--text-secondary);
-            display: flex;
             align-items: center;
+            justify-content: center;
+            flex: 1;
             gap: 8px;
         }
-        .mockup-sidebar-item.active {
-            background: rgba(217,70,239,0.15);
-            color: var(--text-primary);
+        .scanning-circle {
+            position: relative;
+            width: 90px; height: 90px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
         }
-        .mockup-main {
+        .scanning-ring {
+            position: absolute; top: 0; left: 0;
+            width: 90px; height: 90px;
+            border-radius: 50%;
+            border: 2px solid rgba(217,70,239,0.15);
+            border-top: 2px solid var(--accent-pink);
+            border-right: 2px solid var(--accent-pink);
+            animation: spin 1.5s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .scanning-icon { font-size: 28px; margin-bottom: 2px; }
+        .scanning-label { font-size: 9px; color: rgba(255,255,255,0.6); }
+        .scanning-info { font-size: 9px; color: rgba(255,255,255,0.4); }
+        .scanning-size { font-size: 18px; font-weight: 700; color: white; }
+
+        /* ── Screen 3: Results ── */
+        .sc-results { flex: 1; display: flex; flex-direction: column; }
+        .res-headline { font-size: 11px; color: white; font-weight: 400; margin-bottom: 8px; line-height: 1.3; }
+        .res-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
+            gap: 5px;
+            margin-bottom: 4px;
         }
-        .mockup-card {
+        .res-card {
             background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 12px;
-            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 8px 6px;
+            position: relative;
         }
-        .mockup-card .label {
-            font-size: 11px;
-            color: var(--text-tertiary);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 8px;
+        .res-card.off { opacity: 0.5; }
+        .rc-check {
+            position: absolute; top: 5px; left: 5px;
+            width: 12px; height: 12px; border-radius: 3px;
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 8px; display: flex; align-items: center; justify-content: center;
         }
-        .mockup-card .value {
-            font-size: 22px;
-            font-weight: 700;
+        .rc-check.on { background: var(--accent-pink); border-color: var(--accent-pink); color: white; }
+        .rc-icon { text-align: right; font-size: 16px; margin-bottom: 6px; }
+        .rc-val { font-size: 11px; font-weight: 700; color: white; margin-bottom: 2px; line-height: 1.2; }
+        .rc-lbl { font-size: 8px; color: rgba(255,255,255,0.4); margin-bottom: 4px; }
+        .rc-btn {
+            font-size: 8px; color: white;
+            background: rgba(255,255,255,0.08);
+            padding: 2px 8px; border-radius: 10px;
+            display: inline-block;
         }
-        .mockup-card .value.pink { color: var(--accent-pink); }
-        .mockup-card .value.green { color: var(--green); }
-        .mockup-card .value.blue { color: var(--blue); }
+        .res-execute {
+            margin: 6px auto 0;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-magenta));
+            color: white; font-size: 10px; font-weight: 600;
+            padding: 6px 20px; border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(217,70,239,0.35);
+        }
+
+        /* ── Screen 4: Bereinigung ── */
+        .sc-cleanup { flex: 1; display: flex; flex-direction: column; font-size: 9px; }
+        .sc-header .apm-badge {
+            font-size: 8px;
+            background: rgba(217,70,239,0.12);
+            border: 1px solid rgba(217,70,239,0.25);
+            color: var(--accent-pink-hi);
+            padding: 1px 8px;
+            border-radius: 20px;
+            margin-left: 6px;
+        }
+        .cl-sub { font-size: 9px; color: rgba(255,255,255,0.4); margin-bottom: 6px; }
+        .cl-filter {
+            display: flex; gap: 2px; margin-bottom: 8px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 6px; padding: 2px;
+        }
+        .clf {
+            font-size: 8px; padding: 3px 8px; border-radius: 4px;
+            color: rgba(255,255,255,0.5); white-space: nowrap;
+        }
+        .clf.active { background: rgba(255,255,255,0.1); color: white; }
+        .cl-list { flex: 1; overflow: hidden; }
+        .cl-group { font-size: 9px; font-weight: 600; color: white; padding: 3px 0; display: flex; justify-content: space-between; }
+        .cl-size { color: var(--accent-pink); font-weight: 600; }
+        .cl-item {
+            display: flex; align-items: center; gap: 5px;
+            padding: 2px 0; color: rgba(255,255,255,0.65);
+            font-size: 8.5px;
+        }
+        .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+        .dot.green { background: var(--green); }
+        .dot.yellow { background: var(--yellow); }
+        .dot.orange { background: var(--orange); }
+        .dot.red { background: var(--red); }
+        .cl-sz { margin-left: auto; color: rgba(255,255,255,0.35); font-size: 8px; }
+        .cl-footer {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 5px 0 0; font-size: 8px; color: rgba(255,255,255,0.4);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            margin-top: 4px;
+        }
+        .cl-trash-btn {
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-magenta));
+            color: white; padding: 3px 12px; border-radius: 12px;
+            font-size: 8px; opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .app-screen { grid-template-columns: 1fr; }
+            .app-sidebar { display: none; }
+            .macbook-screen { padding: 8px 8px 0; }
+            .res-grid { grid-template-columns: repeat(2, 1fr); }
+            .sc-landing { grid-template-columns: 1fr; }
+            .sc-laptop-icon { display: none; }
+        }
 
         /* ═══ FEATURES ═══ */
         .section {
@@ -582,7 +816,7 @@
     </a>
     <div class="nav-links">
         <a href="#features">Features</a>
-        <a href="#audio">Audio Mode</a>
+        <a href="#audio">Pro Features</a>
         <a href="#compare">Compare</a>
         <a href="#pricing">Pricing</a>
         <a href="https://github.com/MartinWiederhold/MacCare/releases/download/v1.0.0/MacCare-Installer.dmg" class="nav-cta">Download Free Trial</a>
@@ -591,9 +825,9 @@
 
 <!-- ═══ HERO ═══ -->
 <section class="hero">
-    <div class="hero-badge">🎵 Built by an audio producer — for audio producers</div>
-    <h1>Your Mac, <span class="gradient-text">safely cleaned.</span></h1>
-    <p class="hero-sub">MacCare finds and removes up to 20 GB of junk — without touching your Logic Pro plugins, Kontakt libraries, or audio settings. The only Mac cleaner with Audio Producer Mode.</p>
+    <div class="hero-badge">✦ Trusted by 100+ Mac users · Apple-notarized · 7-day free trial</div>
+    <h1>More storage. <span class="gradient-text">Faster Mac.</span></h1>
+    <p class="hero-sub">MacCare finds and removes up to 20 GB of hidden junk — old caches, broken logs, forgotten duplicates. Your Mac runs faster, with more free space. In under 2 minutes.</p>
     <div class="hero-actions">
         <a href="https://github.com/MartinWiederhold/MacCare/releases/download/v1.0.0/MacCare-Installer.dmg" class="btn-primary">⬇ Download Free Trial</a>
         <a href="#features" class="btn-secondary">See Features →</a>
@@ -601,57 +835,156 @@
     <p class="hero-meta">macOS 14+ · 1.3 MB · No subscription required during trial · Apple-notarized</p>
 </section>
 
-<!-- ═══ APP PREVIEW ═══ -->
-<div class="app-preview">
-    <div class="window">
-        <div class="window-bar">
-            <div class="window-dot r"></div>
-            <div class="window-dot y"></div>
-            <div class="window-dot g"></div>
-        </div>
-        <div class="window-content">
-            <div class="window-mockup">
-                <div class="mockup-sidebar">
-                    <div class="mockup-sidebar-item active">✦ Smart Care</div>
-                    <div class="mockup-sidebar-item">🗑 Cleanup</div>
-                    <div class="mockup-sidebar-item">🛡 Protection</div>
-                    <div class="mockup-sidebar-item">⚡ Performance</div>
-                    <div class="mockup-sidebar-item">📦 Apps</div>
-                    <div class="mockup-sidebar-item">🔍 Disk Map</div>
-                    <div class="mockup-sidebar-item">📊 Activity</div>
-                </div>
-                <div class="mockup-main">
-                    <div class="mockup-card">
-                        <div class="label">Junk Found</div>
-                        <div class="value pink">14.2 GB</div>
+<!-- ═══ MACBOOK MOCKUP ═══ -->
+<div class="macbook-container">
+    <div class="macbook-glow"></div>
+    <div class="macbook">
+        <div class="macbook-screen">
+            <div class="macbook-display">
+                <!-- 4 screens that crossfade -->
+                <div class="screen-carousel">
+
+                    <!-- SCREEN 1: Smart Care Landing -->
+                    <div class="app-screen screen-1">
+                        <div class="app-sidebar">
+                            <div class="app-brand">✦ <strong>MacCare</strong><br><span style="font-size:8px;opacity:0.5;">System-Pflege</span></div>
+                            <div class="sb active">✦ Smart Care</div>
+                            <div class="sb">🗑 Bereinigung</div>
+                            <div class="sb">🛡 Schutz</div>
+                            <div class="sb">⚡ Leistung</div>
+                            <div class="sb">📦 Programme</div>
+                            <div class="sb">📁 Mein Krempel</div>
+                            <div class="sb">🔍 Dateilupe</div>
+                            <div class="sb dim">☁ Cloud-Bereinigung</div>
+                            <div class="sb dim">🔧 Meine Tools</div>
+                            <div class="sb dim">📊 Meine Aktivität</div>
+                        </div>
+                        <div class="app-main sc-landing">
+                            <div class="sc-header">Smart Care</div>
+                            <div class="sc-laptop-icon">
+                                <div class="laptop-gfx">💻</div>
+                            </div>
+                            <div class="sc-right">
+                                <div class="sc-title">Smart Care</div>
+                                <div class="sc-desc">Mit einem Klick: alles checken, was deinen Mac schneller und sicherer macht.</div>
+                                <div class="sc-feature"><span class="sc-fi" style="background:rgba(217,70,239,0.15);">⚡</span> Schneller Scan</div>
+                                <div class="sc-feature"><span class="sc-fi" style="background:rgba(59,130,246,0.15);">⚙</span> Systemtuning</div>
+                                <div class="sc-feature"><span class="sc-fi" style="background:rgba(124,58,237,0.15);">🛡</span> Sicherheitsprüfung</div>
+                            </div>
+                            <div class="sc-scan-btn">
+                                <div class="sc-scan-inner">Scannen</div>
+                            </div>
+                            <div class="sc-audio-badge">🎵 Audio Producer Mode aktiv</div>
+                        </div>
                     </div>
-                    <div class="mockup-card">
-                        <div class="label">Security</div>
-                        <div class="value green">All Clear</div>
+
+                    <!-- SCREEN 2: Scanning -->
+                    <div class="app-screen screen-2">
+                        <div class="app-sidebar">
+                            <div class="app-brand">✦ <strong>MacCare</strong><br><span style="font-size:8px;opacity:0.5;">System-Pflege</span></div>
+                            <div class="sb active">✦ Smart Care</div>
+                            <div class="sb">🗑 Bereinigung</div>
+                            <div class="sb">🛡 Schutz</div>
+                            <div class="sb">⚡ Leistung</div>
+                            <div class="sb">📦 Programme</div>
+                            <div class="sb">📁 Mein Krempel</div>
+                            <div class="sb">🔍 Dateilupe</div>
+                            <div class="sb dim">☁ Cloud-Bereinigung</div>
+                            <div class="sb dim">🔧 Meine Tools</div>
+                            <div class="sb dim">📊 Meine Aktivität</div>
+                        </div>
+                        <div class="app-main sc-scanning">
+                            <div class="sc-header">Smart Care</div>
+                            <div class="scanning-circle">
+                                <div class="scanning-ring"></div>
+                                <div class="scanning-icon">💻</div>
+                                <div class="scanning-label">Scanne...</div>
+                            </div>
+                            <div class="scanning-info">Bereite Module vor...</div>
+                            <div class="scanning-size">4,53 GB</div>
+                        </div>
                     </div>
-                    <div class="mockup-card">
-                        <div class="label">Startup Items</div>
-                        <div class="value blue">3 Found</div>
+
+                    <!-- SCREEN 3: Results -->
+                    <div class="app-screen screen-3">
+                        <div class="app-sidebar">
+                            <div class="app-brand">✦ <strong>MacCare</strong><br><span style="font-size:8px;opacity:0.5;">System-Pflege</span></div>
+                            <div class="sb active">✦ Smart Care</div>
+                            <div class="sb">🗑 Bereinigung</div>
+                            <div class="sb">🛡 Schutz</div>
+                            <div class="sb">⚡ Leistung</div>
+                            <div class="sb">📦 Programme</div>
+                            <div class="sb">📁 Mein Krempel</div>
+                            <div class="sb">🔍 Dateilupe</div>
+                            <div class="sb dim">☁ Cloud-Bereinigung</div>
+                            <div class="sb dim">🔧 Meine Tools</div>
+                            <div class="sb dim">📊 Meine Aktivität</div>
+                        </div>
+                        <div class="app-main sc-results">
+                            <div class="sc-header">Smart Care</div>
+                            <div class="res-headline">Ihre Aufgaben sind bereit zur Ausführung.<br><span style="opacity:0.5;font-size:10px;">Das haben wir gefunden:</span></div>
+                            <div class="res-grid">
+                                <div class="res-card"><div class="rc-check on">✓</div><div class="rc-icon">🗑</div><div class="rc-val">4,53 GB an<br>Datenmüll</div><div class="rc-lbl">Bereinigung</div><div class="rc-btn">Prüfen</div></div>
+                                <div class="res-card"><div class="rc-check on">✓</div><div class="rc-icon">🛡</div><div class="rc-val">1 Gefahr</div><div class="rc-lbl">Schutz</div><div class="rc-btn">Prüfen</div></div>
+                                <div class="res-card"><div class="rc-check on">✓</div><div class="rc-icon">⚡</div><div class="rc-val">1 Startup-Item</div><div class="rc-lbl">Leistung</div><div class="rc-btn">Prüfen</div></div>
+                                <div class="res-card off"><div class="rc-check"></div><div class="rc-icon">📦</div><div class="rc-val">23 installiert</div><div class="rc-lbl">Programme</div><div class="rc-btn">Prüfen</div></div>
+                                <div class="res-card off"><div class="rc-check"></div><div class="rc-icon">📁</div><div class="rc-val">Noch nicht geprüft</div><div class="rc-lbl">Mein Krempel</div><div class="rc-btn">Prüfen</div></div>
+                            </div>
+                            <div class="res-execute">▶ Ausführen</div>
+                        </div>
                     </div>
-                    <div class="mockup-card" style="grid-column: span 2;">
-                        <div class="label">Audio Producer Mode</div>
-                        <div class="value" style="font-size: 15px; color: var(--green);">🎵 Active — Logic Pro, Kontakt 7, Soundtoys protected</div>
+
+                    <!-- SCREEN 4: Bereinigung with Filter-Bar -->
+                    <div class="app-screen screen-4">
+                        <div class="app-sidebar">
+                            <div class="app-brand">✦ <strong>MacCare</strong><br><span style="font-size:8px;opacity:0.5;">System-Pflege</span></div>
+                            <div class="sb">✦ Smart Care</div>
+                            <div class="sb active">🗑 Bereinigung</div>
+                            <div class="sb">🛡 Schutz</div>
+                            <div class="sb">⚡ Leistung</div>
+                            <div class="sb">📦 Programme</div>
+                            <div class="sb">📁 Mein Krempel</div>
+                            <div class="sb">🔍 Dateilupe</div>
+                            <div class="sb dim">☁ Cloud-Bereinigung</div>
+                            <div class="sb dim">🔧 Meine Tools</div>
+                            <div class="sb dim">📊 Meine Aktivität</div>
+                        </div>
+                        <div class="app-main sc-cleanup">
+                            <div class="sc-header">Bereinigung <span class="apm-badge">🎵 Audio Producer Mode</span></div>
+                            <div class="cl-sub">109 Einträge · 4,53 GB gesamt</div>
+                            <div class="cl-filter">
+                                <span class="clf active">Nur sichere</span>
+                                <span class="clf">Auch geringe Auswirkung</span>
+                                <span class="clf">Alle inkl. riskante</span>
+                            </div>
+                            <div class="cl-list">
+                                <div class="cl-group">User-Caches <span class="cl-size">402,4 MB</span></div>
+                                <div class="cl-item"><span class="dot green"></span> com.apple.appleaccountd <span class="cl-sz">393 KB</span></div>
+                                <div class="cl-item"><span class="dot green"></span> familycircled <span class="cl-sz">168 KB</span></div>
+                                <div class="cl-item"><span class="dot green"></span> com.apple.helpd <span class="cl-sz">16,8 MB</span></div>
+                                <div class="cl-item"><span class="dot green"></span> com.apple.dt.Xcode <span class="cl-sz">2,7 MB</span></div>
+                                <div class="cl-item"><span class="dot green"></span> GeoServices <span class="cl-sz">41,9 MB</span></div>
+                                <div class="cl-item"><span class="dot green"></span> com.mockmaster <span class="cl-sz">22,1 MB</span></div>
+                                <div class="cl-item"><span class="dot green"></span> com.apple.storekitagent <span class="cl-sz">893 KB</span></div>
+                                <div class="cl-item"><span class="dot green"></span> PassKit <span class="cl-sz">5 MB</span></div>
+                            </div>
+                            <div class="cl-footer">0 ausgewählt · 0 KB <span class="cl-trash-btn">🗑 In Papierkorb</span></div>
+                        </div>
                     </div>
-                    <div class="mockup-card">
-                        <div class="label">Apps</div>
-                        <div class="value blue">23</div>
-                    </div>
+
                 </div>
             </div>
         </div>
+        <div class="macbook-base"></div>
+        <div class="macbook-shadow"></div>
     </div>
 </div>
 
 <!-- ═══ FEATURES ═══ -->
 <section class="section reveal" id="features">
     <div class="section-label">Features</div>
-    <h2 class="section-title">Everything your Mac needs.<br>Nothing it doesn't.</h2>
-    <p class="section-desc">MacCare scans 8 categories of system junk, finds duplicates, manages startup items, and visualizes disk usage — with a safety-first approach that CleanMyMac can't match.</p>
+    <h2 class="section-title">Everything to keep<br>your Mac running fast.</h2>
+    <p class="section-desc">MacCare scans 8 categories of system junk, finds duplicates, manages startup items, and shows exactly where your storage went — with built-in safety so nothing important gets deleted.</p>
     <div class="features-grid">
         <div class="feature-card">
             <div class="feature-icon" style="background: rgba(217,70,239,0.12);">🧹</div>
@@ -686,23 +1019,22 @@
     </div>
 </section>
 
-<!-- ═══ AUDIO PRODUCER MODE ═══ -->
+<!-- ═══ AUDIO PRODUCER MODE (Feature Highlight) ═══ -->
 <section class="audio-section reveal" id="audio">
     <div class="audio-inner">
         <div class="audio-content">
-            <div class="badge">🎵 Exclusive Feature</div>
+            <div class="badge">🎵 For Creative Professionals</div>
             <h2>Audio Producer Mode</h2>
-            <p>Built by a Logic Pro user who got burned by CleanMyMac deleting AudioUnitCache and triggering a 30-minute plugin re-validation. Never again.</p>
-            <p>When enabled, MacCare automatically protects all audio-related paths — plugins, sample libraries, presets, and DAW caches. No other cleaner does this.</p>
+            <p>Use Logic Pro, Ableton, or Pro Tools? MacCare automatically detects your DAW and protects all audio-related files — plugins, sample libraries, presets, and caches. No other cleaner does this.</p>
+            <p>One toggle. Total protection. Clean your Mac without fear of breaking your setup.</p>
         </div>
         <div class="protected-list">
             <div class="protected-item"><div class="shield">🔒</div> Logic Pro — Plugins, Preferences & Caches</div>
-            <div class="protected-item"><div class="shield">🔒</div> Native Instruments — Kontakt 7, Komplete</div>
-            <div class="protected-item"><div class="shield">🔒</div> Soundtoys — Effects & Presets</div>
-            <div class="protected-item"><div class="shield">🔒</div> AudioUnitCache — Never re-validate again</div>
+            <div class="protected-item"><div class="shield">🔒</div> Native Instruments — Kontakt, Komplete</div>
+            <div class="protected-item"><div class="shield">🔒</div> Soundtoys, Waves, FabFilter — Effects & Presets</div>
+            <div class="protected-item"><div class="shield">🔒</div> AudioUnitCache — No more plugin re-validation</div>
             <div class="protected-item"><div class="shield">🔒</div> Ableton, Cubase, Pro Tools — Settings & Data</div>
-            <div class="protected-item"><div class="shield">🔒</div> Sample Libraries — NI, Spectrasonics, Steinberg</div>
-            <div class="protected-item"><div class="shield">🔒</div> Audio Presets — All plugin presets protected</div>
+            <div class="protected-item"><div class="shield">🔒</div> All Sample Libraries — NI, Spectrasonics, Steinberg</div>
         </div>
     </div>
 </section>
@@ -711,7 +1043,7 @@
 <section class="section reveal" id="compare">
     <div class="section-label">Comparison</div>
     <h2 class="section-title">MacCare vs CleanMyMac X</h2>
-    <p class="section-desc">Same power, more safety, one-third the price.</p>
+    <p class="section-desc">Same power. More safety. One-third the price.</p>
     <table class="comparison-table">
         <thead>
             <tr>
@@ -764,7 +1096,7 @@
 <!-- ═══ FOOTER ═══ -->
 <footer>
     <p style="margin-bottom: 8px;">
-        <a href="#features">Features</a> · <a href="#audio">Audio Mode</a> · <a href="#compare">Compare</a> · <a href="#pricing">Pricing</a>
+        <a href="#features">Features</a> · <a href="#audio">Pro Features</a> · <a href="#compare">Compare</a> · <a href="#pricing">Pricing</a>
     </p>
     <p>© 2026 Martin Wiederhold. MacCare is not affiliated with Apple Inc. or MacPaw.</p>
 </footer>
