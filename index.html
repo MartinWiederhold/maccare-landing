@@ -128,6 +128,33 @@
             transform: translateY(-1px);
             box-shadow: 0 8px 30px rgba(217,70,239,0.3);
         }
+        .lang-toggle {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 100px;
+            padding: 4px 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .lang-btn {
+            padding: 3px 10px;
+            border-radius: 100px;
+            border: none;
+            background: transparent;
+            color: var(--text-tertiary);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: var(--font-body);
+            transition: all 0.2s;
+        }
+        .lang-btn.active {
+            background: rgba(255,255,255,0.12);
+            color: white;
+        }
 
         /* ═══ HERO ═══ */
         .hero {
@@ -373,52 +400,71 @@
             margin-bottom: 8px;
         }
 
-        /* ── Screen 1: Smart Care Landing ── */
-        .sc-landing {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: auto 1fr auto auto;
-            gap: 6px;
-            flex: 1;
-        }
-        .sc-landing .sc-header { grid-column: 1 / -1; }
-        .sc-laptop-icon {
+        /* ── Screen 1: Smart Care Landing (simple, centered) ── */
+        .sc-landing-simple {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 48px;
-            grid-row: 2;
+            flex: 1;
         }
-        .sc-right { grid-row: 2; padding: 8px 4px; }
-        .sc-title { font-size: 16px; font-weight: 300; color: white; margin-bottom: 2px; }
-        .sc-desc { font-size: 8px; color: rgba(255,255,255,0.4); margin-bottom: 8px; line-height: 1.4; }
-        .sc-feature { display: flex; align-items: center; gap: 6px; font-size: 9px; color: white; padding: 3px 0; }
-        .sc-fi { width: 20px; height: 20px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 10px; }
-        .sc-scan-btn {
-            grid-column: 1 / -1;
+        .sc-center {
             display: flex;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            padding: 6px 0;
+            flex: 1;
+            gap: 6px;
         }
-        .sc-scan-inner {
-            width: 52px; height: 52px;
+        .sc-big-title {
+            font-size: 22px;
+            font-weight: 300;
+            color: white;
+            letter-spacing: -0.02em;
+        }
+        .sc-big-desc {
+            font-size: 9px;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 10px;
+        }
+        .sc-features-row {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+        .sc-feat-pill {
+            font-size: 8px;
+            color: rgba(255,255,255,0.7);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 3px 8px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .sc-big-scan { margin: 4px 0; }
+        .sc-big-scan-btn {
+            width: 80px; height: 80px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--accent-pink), var(--accent-magenta));
-            display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 10px; font-weight: 600;
-            box-shadow: 0 4px 25px rgba(217,70,239,0.45);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            gap: 2px;
+            box-shadow: 0 6px 40px rgba(217,70,239,0.5), 0 0 80px rgba(217,70,239,0.15);
             animation: pulse 2s ease-in-out infinite;
         }
-        .sc-audio-badge {
-            grid-column: 1 / -1;
-            text-align: center;
+        .sc-sparkle { font-size: 16px; }
+        .sc-bottom-badge {
             font-size: 8px;
             color: var(--green);
-            background: rgba(74,222,128,0.08);
-            padding: 3px 10px;
-            border-radius: 20px;
-            width: fit-content;
-            margin: 0 auto 4px;
+            padding: 4px 0;
+            opacity: 0.7;
         }
 
         /* ── Screen 2: Scanning ── */
@@ -792,6 +838,7 @@
         @media (max-width: 768px) {
             nav { padding: 12px 20px; }
             .nav-links a:not(.nav-cta) { display: none; }
+            .nav-links .lang-toggle { display: flex; }
             .audio-inner { grid-template-columns: 1fr; padding: 32px 24px; }
             .window-mockup { grid-template-columns: 1fr; }
             .mockup-sidebar { display: none; }
@@ -815,24 +862,28 @@
         <span class="sparkle">✦</span> MacCare
     </a>
     <div class="nav-links">
-        <a href="#features">Features</a>
-        <a href="#audio">Pro Features</a>
-        <a href="#compare">Compare</a>
-        <a href="#pricing">Pricing</a>
-        <a href="https://github.com/MartinWiederhold/MacCare/releases/download/v1.0.0/MacCare-Installer.dmg" class="nav-cta">Download Free Trial</a>
+        <a href="#features" data-i18n="nav_features">Features</a>
+        <a href="#audio" data-i18n="nav_pro">Pro Features</a>
+        <a href="#compare" data-i18n="nav_compare">Compare</a>
+        <a href="#pricing" data-i18n="nav_pricing">Pricing</a>
+        <div class="lang-toggle">
+            <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn" id="btn-de" onclick="setLang('de')">DE</button>
+        </div>
+        <a href="https://github.com/MartinWiederhold/MacCare/releases/download/v1.0.0/MacCare-Installer.dmg" class="nav-cta" data-i18n="nav_download">Download Free Trial</a>
     </div>
 </nav>
 
 <!-- ═══ HERO ═══ -->
 <section class="hero">
-    <div class="hero-badge">✦ Trusted by 100+ Mac users · Apple-notarized · 7-day free trial</div>
-    <h1>More storage. <span class="gradient-text">Faster Mac.</span></h1>
-    <p class="hero-sub">MacCare finds and removes up to 20 GB of hidden junk — old caches, broken logs, forgotten duplicates. Your Mac runs faster, with more free space. In under 2 minutes.</p>
+    <div class="hero-badge" data-i18n="hero_badge">✦ Trusted by 100+ Mac users · Apple-notarized · 7-day free trial</div>
+    <h1><span data-i18n="hero_h1a">More storage.</span> <span class="gradient-text" data-i18n="hero_h1b">Faster Mac.</span></h1>
+    <p class="hero-sub" data-i18n="hero_sub">MacCare finds and removes up to 20 GB of hidden junk — old caches, broken logs, forgotten duplicates. Your Mac runs faster, with more free space. In under 2 minutes.</p>
     <div class="hero-actions">
-        <a href="https://github.com/MartinWiederhold/MacCare/releases/download/v1.0.0/MacCare-Installer.dmg" class="btn-primary">⬇ Download Free Trial</a>
-        <a href="#features" class="btn-secondary">See Features →</a>
+        <a href="https://github.com/MartinWiederhold/MacCare/releases/download/v1.0.0/MacCare-Installer.dmg" class="btn-primary" data-i18n="hero_cta">⬇ Download Free Trial</a>
+        <a href="#features" class="btn-secondary" data-i18n="hero_secondary">See Features →</a>
     </div>
-    <p class="hero-meta">macOS 14+ · 1.3 MB · No subscription required during trial · Apple-notarized</p>
+    <p class="hero-meta" data-i18n="hero_meta">macOS 14+ · 1.3 MB · No subscription required during trial · Apple-notarized</p>
 </section>
 
 <!-- ═══ MACBOOK MOCKUP ═══ -->
@@ -844,37 +895,39 @@
                 <!-- 4 screens that crossfade -->
                 <div class="screen-carousel">
 
-                    <!-- SCREEN 1: Smart Care Landing -->
+                    <!-- SCREEN 1: Smart Care Landing — big centered scan button -->
                     <div class="app-screen screen-1">
                         <div class="app-sidebar">
                             <div class="app-brand">✦ <strong>MacCare</strong><br><span style="font-size:8px;opacity:0.5;">System-Pflege</span></div>
-                            <div class="sb active">✦ Smart Care</div>
-                            <div class="sb">🗑 Bereinigung</div>
-                            <div class="sb">🛡 Schutz</div>
-                            <div class="sb">⚡ Leistung</div>
-                            <div class="sb">📦 Programme</div>
-                            <div class="sb">📁 Mein Krempel</div>
-                            <div class="sb">🔍 Dateilupe</div>
+                            <div class="sb active"data-i18n="m_smartcare">✦ Smart Care</div>
+                            <div class="sb"data-i18n="m_cleanup">🗑 Cleanup</div>
+                            <div class="sb"data-i18n="m_protection">🛡 Protection</div>
+                            <div class="sb"data-i18n="m_performance">⚡ Performance</div>
+                            <div class="sb"data-i18n="m_apps">📦 Apps</div>
+                            <div class="sb"data-i18n="m_clutter">📁 My Clutter</div>
+                            <div class="sb"data-i18n="m_diskmap">🔍 Disk Map</div>
                             <div class="sb dim">☁ Cloud-Bereinigung</div>
                             <div class="sb dim">🔧 Meine Tools</div>
                             <div class="sb dim">📊 Meine Aktivität</div>
                         </div>
-                        <div class="app-main sc-landing">
-                            <div class="sc-header">Smart Care</div>
-                            <div class="sc-laptop-icon">
-                                <div class="laptop-gfx">💻</div>
+                        <div class="app-main sc-landing-simple">
+                            <div class="sc-header"data-i18n="m_sc_title">Smart Care</div>
+                            <div class="sc-center">
+                                <div class="sc-big-title">Smart Care</div>
+                                <div class="sc-big-desc"data-i18n="m_sc_desc">Quick maintenance for the essentials.</div>
+                                <div class="sc-features-row">
+                                    <div class="sc-feat-pill"><span style="color:var(--accent-pink);">⚡</span> Schneller Scan</div>
+                                    <div class="sc-feat-pill"><span style="color:var(--blue);">⚙</span> Systemtuning</div>
+                                    <div class="sc-feat-pill"><span style="color:var(--accent-purple);">🛡</span> Sicherheitsprüfung</div>
+                                </div>
+                                <div class="sc-big-scan">
+                                    <div class="sc-big-scan-btn">
+                                        <span class="sc-sparkle">✦</span>
+                                        <span data-i18n="m_sc_scan">Scan</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="sc-right">
-                                <div class="sc-title">Smart Care</div>
-                                <div class="sc-desc">Mit einem Klick: alles checken, was deinen Mac schneller und sicherer macht.</div>
-                                <div class="sc-feature"><span class="sc-fi" style="background:rgba(217,70,239,0.15);">⚡</span> Schneller Scan</div>
-                                <div class="sc-feature"><span class="sc-fi" style="background:rgba(59,130,246,0.15);">⚙</span> Systemtuning</div>
-                                <div class="sc-feature"><span class="sc-fi" style="background:rgba(124,58,237,0.15);">🛡</span> Sicherheitsprüfung</div>
-                            </div>
-                            <div class="sc-scan-btn">
-                                <div class="sc-scan-inner">Scannen</div>
-                            </div>
-                            <div class="sc-audio-badge">🎵 Audio Producer Mode aktiv</div>
+                            <div class="sc-bottom-badge"data-i18n="m_sc_status">🟢 System OK</div>
                         </div>
                     </div>
 
@@ -882,13 +935,13 @@
                     <div class="app-screen screen-2">
                         <div class="app-sidebar">
                             <div class="app-brand">✦ <strong>MacCare</strong><br><span style="font-size:8px;opacity:0.5;">System-Pflege</span></div>
-                            <div class="sb active">✦ Smart Care</div>
-                            <div class="sb">🗑 Bereinigung</div>
-                            <div class="sb">🛡 Schutz</div>
-                            <div class="sb">⚡ Leistung</div>
-                            <div class="sb">📦 Programme</div>
-                            <div class="sb">📁 Mein Krempel</div>
-                            <div class="sb">🔍 Dateilupe</div>
+                            <div class="sb active"data-i18n="m_smartcare">✦ Smart Care</div>
+                            <div class="sb"data-i18n="m_cleanup">🗑 Cleanup</div>
+                            <div class="sb"data-i18n="m_protection">🛡 Protection</div>
+                            <div class="sb"data-i18n="m_performance">⚡ Performance</div>
+                            <div class="sb"data-i18n="m_apps">📦 Apps</div>
+                            <div class="sb"data-i18n="m_clutter">📁 My Clutter</div>
+                            <div class="sb"data-i18n="m_diskmap">🔍 Disk Map</div>
                             <div class="sb dim">☁ Cloud-Bereinigung</div>
                             <div class="sb dim">🔧 Meine Tools</div>
                             <div class="sb dim">📊 Meine Aktivität</div>
@@ -898,9 +951,9 @@
                             <div class="scanning-circle">
                                 <div class="scanning-ring"></div>
                                 <div class="scanning-icon">💻</div>
-                                <div class="scanning-label">Scanne...</div>
+                                <div class="scanning-label"data-i18n="m_scanning">Scanning...</div>
                             </div>
-                            <div class="scanning-info">Bereite Module vor...</div>
+                            <div class="scanning-info"data-i18n="m_preparing">Preparing modules...</div>
                             <div class="scanning-size">4,53 GB</div>
                         </div>
                     </div>
@@ -909,20 +962,20 @@
                     <div class="app-screen screen-3">
                         <div class="app-sidebar">
                             <div class="app-brand">✦ <strong>MacCare</strong><br><span style="font-size:8px;opacity:0.5;">System-Pflege</span></div>
-                            <div class="sb active">✦ Smart Care</div>
-                            <div class="sb">🗑 Bereinigung</div>
-                            <div class="sb">🛡 Schutz</div>
-                            <div class="sb">⚡ Leistung</div>
-                            <div class="sb">📦 Programme</div>
-                            <div class="sb">📁 Mein Krempel</div>
-                            <div class="sb">🔍 Dateilupe</div>
+                            <div class="sb active"data-i18n="m_smartcare">✦ Smart Care</div>
+                            <div class="sb"data-i18n="m_cleanup">🗑 Cleanup</div>
+                            <div class="sb"data-i18n="m_protection">🛡 Protection</div>
+                            <div class="sb"data-i18n="m_performance">⚡ Performance</div>
+                            <div class="sb"data-i18n="m_apps">📦 Apps</div>
+                            <div class="sb"data-i18n="m_clutter">📁 My Clutter</div>
+                            <div class="sb"data-i18n="m_diskmap">🔍 Disk Map</div>
                             <div class="sb dim">☁ Cloud-Bereinigung</div>
                             <div class="sb dim">🔧 Meine Tools</div>
                             <div class="sb dim">📊 Meine Aktivität</div>
                         </div>
                         <div class="app-main sc-results">
                             <div class="sc-header">Smart Care</div>
-                            <div class="res-headline">Ihre Aufgaben sind bereit zur Ausführung.<br><span style="opacity:0.5;font-size:10px;">Das haben wir gefunden:</span></div>
+                            <div class="res-headline"><span data-i18n="m_res_headline">Your tasks are ready.</span><br><span style="opacity:0.5;font-size:10px;"><span data-i18n="m_res_sub">Here's what we found:</span></span></div>
                             <div class="res-grid">
                                 <div class="res-card"><div class="rc-check on">✓</div><div class="rc-icon">🗑</div><div class="rc-val">4,53 GB an<br>Datenmüll</div><div class="rc-lbl">Bereinigung</div><div class="rc-btn">Prüfen</div></div>
                                 <div class="res-card"><div class="rc-check on">✓</div><div class="rc-icon">🛡</div><div class="rc-val">1 Gefahr</div><div class="rc-lbl">Schutz</div><div class="rc-btn">Prüfen</div></div>
@@ -930,7 +983,7 @@
                                 <div class="res-card off"><div class="rc-check"></div><div class="rc-icon">📦</div><div class="rc-val">23 installiert</div><div class="rc-lbl">Programme</div><div class="rc-btn">Prüfen</div></div>
                                 <div class="res-card off"><div class="rc-check"></div><div class="rc-icon">📁</div><div class="rc-val">Noch nicht geprüft</div><div class="rc-lbl">Mein Krempel</div><div class="rc-btn">Prüfen</div></div>
                             </div>
-                            <div class="res-execute">▶ Ausführen</div>
+                            <div class="res-execute"data-i18n="m_res_execute">▶ Execute</div>
                         </div>
                     </div>
 
@@ -938,13 +991,13 @@
                     <div class="app-screen screen-4">
                         <div class="app-sidebar">
                             <div class="app-brand">✦ <strong>MacCare</strong><br><span style="font-size:8px;opacity:0.5;">System-Pflege</span></div>
-                            <div class="sb">✦ Smart Care</div>
-                            <div class="sb active">🗑 Bereinigung</div>
-                            <div class="sb">🛡 Schutz</div>
-                            <div class="sb">⚡ Leistung</div>
-                            <div class="sb">📦 Programme</div>
-                            <div class="sb">📁 Mein Krempel</div>
-                            <div class="sb">🔍 Dateilupe</div>
+                            <div class="sb"data-i18n="m_smartcare">✦ Smart Care</div>
+                            <div class="sb active"data-i18n="m_cleanup">🗑 Cleanup</div>
+                            <div class="sb"data-i18n="m_protection">🛡 Protection</div>
+                            <div class="sb"data-i18n="m_performance">⚡ Performance</div>
+                            <div class="sb"data-i18n="m_apps">📦 Apps</div>
+                            <div class="sb"data-i18n="m_clutter">📁 My Clutter</div>
+                            <div class="sb"data-i18n="m_diskmap">🔍 Disk Map</div>
                             <div class="sb dim">☁ Cloud-Bereinigung</div>
                             <div class="sb dim">🔧 Meine Tools</div>
                             <div class="sb dim">📊 Meine Aktivität</div>
@@ -953,12 +1006,12 @@
                             <div class="sc-header">Bereinigung <span class="apm-badge">🎵 Audio Producer Mode</span></div>
                             <div class="cl-sub">109 Einträge · 4,53 GB gesamt</div>
                             <div class="cl-filter">
-                                <span class="clf active">Nur sichere</span>
-                                <span class="clf">Auch geringe Auswirkung</span>
-                                <span class="clf">Alle inkl. riskante</span>
+                                <span class="clf active"data-i18n="m_cl_f1">Safe only</span>
+                                <span class="clf"data-i18n="m_cl_f2">Also low impact</span>
+                                <span class="clf"data-i18n="m_cl_f3">All incl. risky</span>
                             </div>
                             <div class="cl-list">
-                                <div class="cl-group">User-Caches <span class="cl-size">402,4 MB</span></div>
+                                <div class="cl-group"data-i18n="m_cl_group">User Caches <span class="cl-size">402,4 MB</span></div>
                                 <div class="cl-item"><span class="dot green"></span> com.apple.appleaccountd <span class="cl-sz">393 KB</span></div>
                                 <div class="cl-item"><span class="dot green"></span> familycircled <span class="cl-sz">168 KB</span></div>
                                 <div class="cl-item"><span class="dot green"></span> com.apple.helpd <span class="cl-sz">16,8 MB</span></div>
@@ -968,7 +1021,7 @@
                                 <div class="cl-item"><span class="dot green"></span> com.apple.storekitagent <span class="cl-sz">893 KB</span></div>
                                 <div class="cl-item"><span class="dot green"></span> PassKit <span class="cl-sz">5 MB</span></div>
                             </div>
-                            <div class="cl-footer">0 ausgewählt · 0 KB <span class="cl-trash-btn">🗑 In Papierkorb</span></div>
+                            <div class="cl-footer"data-i18n="m_cl_footer">0 selected · 0 KB <span class="cl-trash-btn"data-i18n="m_cl_trash">🗑 Move to Trash</span></div>
                         </div>
                     </div>
 
@@ -982,38 +1035,38 @@
 
 <!-- ═══ FEATURES ═══ -->
 <section class="section reveal" id="features">
-    <div class="section-label">Features</div>
-    <h2 class="section-title">Everything to keep<br>your Mac running fast.</h2>
-    <p class="section-desc">MacCare scans 8 categories of system junk, finds duplicates, manages startup items, and shows exactly where your storage went — with built-in safety so nothing important gets deleted.</p>
+    <div class="section-label" data-i18n="feat_label">Features</div>
+    <h2 class="section-title"><span data-i18n="feat_title">Everything to keep<br>your Mac running fast.</span></h2>
+    <p class="section-desc"data-i18n="feat_desc">MacCare scans 8 categories of system junk, finds duplicates, manages startup items, and shows exactly where your storage went — with built-in safety so nothing important gets deleted.</p>
     <div class="features-grid">
         <div class="feature-card">
             <div class="feature-icon" style="background: rgba(217,70,239,0.12);">🧹</div>
-            <h3>Smart Cleanup</h3>
+            <h3data-i18n="feat_1_title">Smart Cleanup</h3>
             <p>Parallel scanning across 8 junk categories. Risk-classified items with color-coded safety indicators. Only safe items are selected by default.</p>
         </div>
         <div class="feature-card">
             <div class="feature-icon" style="background: rgba(59,130,246,0.12);">🗺</div>
-            <h3>Visual Disk Map</h3>
+            <h3data-i18n="feat_2_title">Visual Disk Map</h3>
             <p>Interactive TreeMap visualization shows exactly where your space went. Drill-down navigation, color-coded by file type, with protected paths clearly marked.</p>
         </div>
         <div class="feature-card">
             <div class="feature-icon" style="background: rgba(74,222,128,0.12);">🛡</div>
-            <h3>Safety Guard</h3>
+            <h3data-i18n="feat_3_title">Safety Guard</h3>
             <p>Hardcoded whitelist of paths that are never touched — Documents, Photos, Music, Mail, SSH keys. Every deletion goes to Trash with full Put-Back support.</p>
         </div>
         <div class="feature-card">
             <div class="feature-icon" style="background: rgba(251,146,60,0.12);">📦</div>
-            <h3>Complete Uninstaller</h3>
+            <h3data-i18n="feat_4_title">Complete Uninstaller</h3>
             <p>Removes apps and all their hidden remnants — caches, preferences, containers, launch agents, logs. Finds what Finder misses.</p>
         </div>
         <div class="feature-card">
             <div class="feature-icon" style="background: rgba(250,204,21,0.12);">⚡</div>
-            <h3>Startup Optimizer</h3>
+            <h3data-i18n="feat_5_title">Startup Optimizer</h3>
             <p>Manage Login Items, LaunchAgents, and system daemons. Toggle items on/off with impact indicators. Keep your Mac booting fast.</p>
         </div>
         <div class="feature-card">
             <div class="feature-icon" style="background: rgba(244,114,182,0.12);">📊</div>
-            <h3>Menu Bar Monitor</h3>
+            <h3data-i18n="feat_6_title">Menu Bar Monitor</h3>
             <p>Always-visible disk space indicator in your menu bar. Quick-scan access and last cleanup stats at a glance.</p>
         </div>
     </div>
@@ -1023,8 +1076,8 @@
 <section class="audio-section reveal" id="audio">
     <div class="audio-inner">
         <div class="audio-content">
-            <div class="badge">🎵 For Creative Professionals</div>
-            <h2>Audio Producer Mode</h2>
+            <div class="badge"data-i18n="audio_badge">🎵 For Creative Professionals</div>
+            <h2data-i18n="audio_title">Audio Producer Mode</h2>
             <p>Use Logic Pro, Ableton, or Pro Tools? MacCare automatically detects your DAW and protects all audio-related files — plugins, sample libraries, presets, and caches. No other cleaner does this.</p>
             <p>One toggle. Total protection. Clean your Mac without fear of breaking your setup.</p>
         </div>
@@ -1041,9 +1094,9 @@
 
 <!-- ═══ COMPARISON ═══ -->
 <section class="section reveal" id="compare">
-    <div class="section-label">Comparison</div>
-    <h2 class="section-title">MacCare vs CleanMyMac X</h2>
-    <p class="section-desc">Same power. More safety. One-third the price.</p>
+    <div class="section-label" data-i18n="cmp_label">Comparison</div>
+    <h2 class="section-title"data-i18n="cmp_title">MacCare vs CleanMyMac X</h2>
+    <p class="section-desc"data-i18n="cmp_desc">Same power. More safety. One-third the price.</p>
     <table class="comparison-table">
         <thead>
             <tr>
@@ -1071,13 +1124,13 @@
 
 <!-- ═══ PRICING ═══ -->
 <section class="section reveal" id="pricing">
-    <div class="section-label">Pricing</div>
-    <h2 class="section-title">Simple, fair pricing.</h2>
-    <p class="section-desc">No tricks. 7 days free, then one price for everything.</p>
+    <div class="section-label" data-i18n="price_label">Pricing</div>
+    <h2 class="section-title"data-i18n="price_title">Simple, fair pricing.</h2>
+    <p class="section-desc"data-i18n="price_desc">No tricks. 7 days free, then one price for everything.</p>
     <div class="pricing-card">
-        <div class="section-label">MacCare Pro</div>
+        <div class="section-label"data-i18n="price_plan">MacCare Pro</div>
         <div class="pricing-amount">$29 <span>/ year</span></div>
-        <p class="pricing-period">7-day free trial · Cancel anytime</p>
+        <p class="pricing-period"data-i18n="price_period">7-day free trial · Cancel anytime</p>
         <ul class="pricing-features">
             <li>All features included</li>
             <li>Audio Producer Mode</li>
@@ -1088,7 +1141,7 @@
             <li>Activity Log</li>
             <li>All future updates</li>
         </ul>
-        <a href="https://github.com/MartinWiederhold/MacCare/releases/download/v1.0.0/MacCare-Installer.dmg" class="btn-primary" style="width: 100%; justify-content: center;" id="download">⬇ Start Free Trial</a>
+        <a href="https://github.com/MartinWiederhold/MacCare/releases/download/v1.0.0/MacCare-Installer.dmg" class="btn-primary" style="width: 100%; justify-content: center;" id="download"data-i18n="price_cta">⬇ Start Free Trial</a>
         <p style="margin-top: 16px; font-size: 13px; color: var(--text-tertiary);">Apple-notarized · macOS 14+ · 1.3 MB</p>
     </div>
 </section>
@@ -1098,20 +1151,205 @@
     <p style="margin-bottom: 8px;">
         <a href="#features">Features</a> · <a href="#audio">Pro Features</a> · <a href="#compare">Compare</a> · <a href="#pricing">Pricing</a>
     </p>
-    <p>© 2026 Martin Wiederhold. MacCare is not affiliated with Apple Inc. or MacPaw.</p>
+    <p>© 2026 Martin Wiederhold. <span data-i18n="footer_copy">MacCare is not affiliated with Apple Inc. or MacPaw.</span></p>
 </footer>
 
-<!-- ═══ SCROLL REVEAL ═══ -->
+<!-- ═══ SCROLL REVEAL + i18n ═══ -->
 <script>
+    // Scroll reveal
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
+            if (entry.isIntersecting) entry.target.classList.add('visible');
         });
     }, { threshold: 0.1 });
     reveals.forEach(el => observer.observe(el));
+
+    // ═══ INTERNATIONALIZATION ═══
+    const translations = {
+        en: {
+            // Nav
+            nav_features: "Features", nav_pro: "Pro Features", nav_compare: "Compare",
+            nav_pricing: "Pricing", nav_download: "Download Free Trial",
+            // Hero
+            hero_badge: "✦ Trusted by 100+ Mac users · Apple-notarized · 7-day free trial",
+            hero_h1a: "More storage.", hero_h1b: "Faster Mac.",
+            hero_sub: "MacCare finds and removes up to 20 GB of hidden junk — old caches, broken logs, forgotten duplicates. Your Mac runs faster, with more free space. In under 2 minutes.",
+            hero_cta: "⬇ Download Free Trial", hero_secondary: "See Features →",
+            hero_meta: "macOS 14+ · 1.3 MB · No subscription required during trial · Apple-notarized",
+            // Mockup Screen 1
+            m_smartcare: "Smart Care", m_cleanup: "Cleanup", m_protection: "Protection",
+            m_performance: "Performance", m_apps: "Apps", m_clutter: "My Clutter",
+            m_diskmap: "Disk Map", m_cloud: "Cloud Cleanup", m_tools: "My Tools", m_activity: "Activity",
+            m_sc_title: "Smart Care",
+            m_sc_desc: "Quick maintenance for the essentials.",
+            m_sc_feat1: "Quick Scan", m_sc_feat2: "System Tuning", m_sc_feat3: "Security Check",
+            m_sc_scan: "Scan", m_sc_status: "🟢 System OK",
+            // Mockup Screen 2
+            m_scanning: "Scanning...", m_preparing: "Preparing modules...",
+            // Mockup Screen 3
+            m_res_headline: "Your tasks are ready.",
+            m_res_sub: "Here's what we found:",
+            m_res_junk: "Junk", m_res_security: "Security", m_res_startup: "Startup",
+            m_res_apps: "Apps", m_res_clutter: "Clutter",
+            m_res_junkval: "4.53 GB of<br>Junk", m_res_secval: "1 Threat",
+            m_res_startval: "1 Startup Item", m_res_appsval: "23 installed",
+            m_res_clutterval: "Not yet checked",
+            m_res_check: "Review", m_res_execute: "▶ Execute",
+            // Mockup Screen 4
+            m_cl_title: "Cleanup", m_cl_sub: "109 Items · 4.53 GB total",
+            m_cl_f1: "Safe only", m_cl_f2: "Also low impact", m_cl_f3: "All incl. risky",
+            m_cl_group: "User Caches", m_cl_footer: "0 selected · 0 KB",
+            m_cl_trash: "🗑 Move to Trash",
+            // Features
+            feat_label: "Features",
+            feat_title: "<span data-i18n="feat_title">Everything to keep<br>your Mac running fast.</span>",
+            feat_desc: "MacCare scans 8 categories of system junk, finds duplicates, manages startup items, and shows exactly where your storage went — with built-in safety so nothing important gets deleted.",
+            feat_1_title: "Smart Cleanup", feat_1_desc: "Parallel scanning across 8 junk categories. Risk-classified items with color-coded safety indicators. Only safe items are selected by default.",
+            feat_2_title: "Visual Disk Map", feat_2_desc: "Interactive TreeMap visualization shows exactly where your space went. Drill-down navigation, color-coded by file type, with protected paths clearly marked.",
+            feat_3_title: "Safety Guard", feat_3_desc: "Hardcoded whitelist of paths that are never touched — Documents, Photos, Music, Mail, SSH keys. Every deletion goes to Trash with full Put-Back support.",
+            feat_4_title: "Complete Uninstaller", feat_4_desc: "Removes apps and all their hidden remnants — caches, preferences, containers, launch agents, logs. Finds what Finder misses.",
+            feat_5_title: "Startup Optimizer", feat_5_desc: "Manage Login Items, LaunchAgents, and system daemons. Toggle items on/off with impact indicators. Keep your Mac booting fast.",
+            feat_6_title: "Menu Bar Monitor", feat_6_desc: "Always-visible disk space indicator in your menu bar. Quick-scan access and last cleanup stats at a glance.",
+            // Audio section
+            audio_badge: "🎵 For Creative Professionals",
+            audio_title: "Audio Producer Mode",
+            audio_p1: "Use Logic Pro, Ableton, or Pro Tools? MacCare automatically detects your DAW and protects all audio-related files — plugins, sample libraries, presets, and caches. No other cleaner does this.",
+            audio_p2: "One toggle. Total protection. Clean your Mac without fear of breaking your setup.",
+            audio_item1: "Logic Pro — Plugins, Preferences & Caches",
+            audio_item2: "Native Instruments — Kontakt, Komplete",
+            audio_item3: "Soundtoys, Waves, FabFilter — Effects & Presets",
+            audio_item4: "AudioUnitCache — No more plugin re-validation",
+            audio_item5: "Ableton, Cubase, Pro Tools — Settings & Data",
+            audio_item6: "All Sample Libraries — NI, Spectrasonics, Steinberg",
+            // Comparison
+            cmp_label: "Comparison", cmp_title: "MacCare vs CleanMyMac X",
+            cmp_desc: "Same power. More safety. One-third the price.",
+            cmp_feature: "Feature", cmp_price: "Price",
+            cmp_junk: "Junk Cleanup", cmp_disk: "Disk Visualization",
+            cmp_uninstall: "App Uninstaller", cmp_startup: "Startup Optimizer",
+            cmp_menubar: "Menu Bar Monitor", cmp_risk: "Risk Classification per Item",
+            cmp_audio: "Audio Producer Mode", cmp_whitelist: "Safety Whitelist",
+            cmp_putback: "Put-Back from Trash", cmp_log: "Cleanup Activity Log",
+            cmp_confirm: "Confirm Dialog with Risk",
+            // Pricing
+            price_label: "Pricing", price_title: "Simple, fair pricing.",
+            price_desc: "No tricks. 7 days free, then one price for everything.",
+            price_plan: "MacCare Pro", price_period: "7-day free trial · Cancel anytime",
+            price_f1: "All features included", price_f2: "Audio Producer Mode",
+            price_f3: "Unlimited scans & cleanups", price_f4: "Menu Bar Monitor",
+            price_f5: "TreeMap Disk Visualization", price_f6: "Complete App Uninstaller",
+            price_f7: "Activity Log", price_f8: "All future updates",
+            price_cta: "⬇ Start Free Trial",
+            price_meta: "Apple-notarized · macOS 14+ · 1.3 MB",
+            // Footer
+            footer_copy: "© 2026 Martin Wiederhold. <span data-i18n="footer_copy">MacCare is not affiliated with Apple Inc. or MacPaw.</span>"
+        },
+        de: {
+            nav_features: "Funktionen", nav_pro: "Pro-Funktionen", nav_compare: "Vergleich",
+            nav_pricing: "Preise", nav_download: "Kostenlos testen",
+            hero_badge: "✦ Von 100+ Mac-Nutzern vertraut · Apple-notarisiert · 7 Tage kostenlos",
+            hero_h1a: "Mehr Speicher.", hero_h1b: "Schnellerer Mac.",
+            hero_sub: "MacCare findet und entfernt bis zu 20 GB versteckten Datenmüll — alte Caches, fehlerhafte Logs, vergessene Duplikate. Dein Mac läuft schneller, mit mehr freiem Speicher. In unter 2 Minuten.",
+            hero_cta: "⬇ Kostenlos testen", hero_secondary: "Funktionen ansehen →",
+            hero_meta: "macOS 14+ · 1,3 MB · Keine Zahlung während Testphase · Apple-notarisiert",
+            // Mockup
+            m_smartcare: "Smart Care", m_cleanup: "Bereinigung", m_protection: "Schutz",
+            m_performance: "Leistung", m_apps: "Programme", m_clutter: "Mein Krempel",
+            m_diskmap: "Dateilupe", m_cloud: "Cloud-Bereinigung", m_tools: "Meine Tools", m_activity: "Meine Aktivität",
+            m_sc_title: "Smart Care",
+            m_sc_desc: "Schnelle Wartung für die wichtigste Pflege.",
+            m_sc_feat1: "Schneller Scan", m_sc_feat2: "Systemtuning", m_sc_feat3: "Sicherheitsprüfung",
+            m_sc_scan: "Scannen", m_sc_status: "🟢 System OK",
+            m_scanning: "Scanne...", m_preparing: "Bereite Module vor...",
+            m_res_headline: "<span data-i18n="m_res_headline">Your tasks are ready.</span>",
+            m_res_sub: "<span data-i18n="m_res_sub">Here's what we found:</span>",
+            m_res_junk: "Bereinigung", m_res_security: "Schutz", m_res_startup: "Leistung",
+            m_res_apps: "Programme", m_res_clutter: "Mein Krempel",
+            m_res_junkval: "4,53 GB an<br>Datenmüll", m_res_secval: "1 Gefahr",
+            m_res_startval: "1 Startup-Item", m_res_appsval: "23 installiert",
+            m_res_clutterval: "Noch nicht geprüft",
+            m_res_check: "Prüfen", m_res_execute: "▶ Ausführen",
+            m_cl_title: "Bereinigung", m_cl_sub: "109 Einträge · 4,53 GB gesamt",
+            m_cl_f1: "Nur sichere", m_cl_f2: "Auch geringe Auswirkung", m_cl_f3: "Alle inkl. riskante",
+            m_cl_group: "User-Caches", m_cl_footer: "0 ausgewählt · 0 KB",
+            m_cl_trash: "🗑 In Papierkorb",
+            // Features
+            feat_label: "Funktionen",
+            feat_title: "Alles, damit dein<br>Mac schnell bleibt.",
+            feat_desc: "MacCare scannt 8 Kategorien von Datenmüll, findet Duplikate, verwaltet Startup-Items und zeigt genau, wohin dein Speicher verschwunden ist — mit eingebauter Sicherheit, damit nichts Wichtiges gelöscht wird.",
+            feat_1_title: "Intelligente Bereinigung", feat_1_desc: "Paralleler Scan über 8 Junk-Kategorien. Risiko-klassifizierte Einträge mit farbcodierten Sicherheitsindikatoren. Nur sichere Items sind standardmäßig ausgewählt.",
+            feat_2_title: "Visuelle Speicherkarte", feat_2_desc: "Interaktive TreeMap-Visualisierung zeigt genau, wohin dein Speicher ging. Navigation per Drill-Down, farbcodiert nach Dateityp, geschützte Pfade klar markiert.",
+            feat_3_title: "Sicherheits-Guard", feat_3_desc: "Fest verdrahtete Whitelist von Pfaden die niemals berührt werden — Dokumente, Fotos, Musik, Mail, SSH-Schlüssel. Jede Löschung geht in den Papierkorb mit voller Zurücklegen-Funktion.",
+            feat_4_title: "Vollständiger Deinstaller", feat_4_desc: "Entfernt Apps und all ihre versteckten Reste — Caches, Einstellungen, Container, Launch Agents, Logs. Findet was Finder übersieht.",
+            feat_5_title: "Startup-Optimierer", feat_5_desc: "Verwalte Login-Items, LaunchAgents und System-Daemons. Schalte Items an/aus mit Auswirkungs-Indikatoren. Halte deinen Mac beim Starten schnell.",
+            feat_6_title: "Menüleisten-Monitor", feat_6_desc: "Immer sichtbare Speicherplatzanzeige in deiner Menüleiste. Schnell-Scan und letzte Bereinigungsstatistiken auf einen Blick.",
+            // Audio
+            audio_badge: "🎵 Für kreative Profis",
+            audio_title: "Audio Producer Mode",
+            audio_p1: "Du nutzt Logic Pro, Ableton oder Pro Tools? MacCare erkennt automatisch deine DAW und schützt alle Audio-bezogenen Dateien — Plugins, Sample-Libraries, Presets und Caches. Kein anderer Cleaner macht das.",
+            audio_p2: "Ein Schalter. Totaler Schutz. Reinige deinen Mac ohne Angst, dein Setup zu zerstören.",
+            audio_item1: "Logic Pro — Plugins, Einstellungen & Caches",
+            audio_item2: "Native Instruments — Kontakt, Komplete",
+            audio_item3: "Soundtoys, Waves, FabFilter — Effekte & Presets",
+            audio_item4: "AudioUnitCache — Nie wieder Plugin-Neuvalidierung",
+            audio_item5: "Ableton, Cubase, Pro Tools — Settings & Daten",
+            audio_item6: "Alle Sample Libraries — NI, Spectrasonics, Steinberg",
+            // Comparison
+            cmp_label: "Vergleich", cmp_title: "MacCare vs CleanMyMac X",
+            cmp_desc: "Gleiche Power. Mehr Sicherheit. Ein Drittel des Preises.",
+            cmp_feature: "Funktion", cmp_price: "Preis",
+            cmp_junk: "Junk-Bereinigung", cmp_disk: "Speicher-Visualisierung",
+            cmp_uninstall: "App-Deinstaller", cmp_startup: "Startup-Optimierer",
+            cmp_menubar: "Menüleisten-Monitor", cmp_risk: "Risiko-Klassifizierung pro Eintrag",
+            cmp_audio: "Audio Producer Mode", cmp_whitelist: "Sicherheits-Whitelist",
+            cmp_putback: "Zurücklegen aus Papierkorb", cmp_log: "Bereinigungs-Aktivitätslog",
+            cmp_confirm: "Bestätigungsdialog mit Risiko",
+            // Pricing
+            price_label: "Preise", price_title: "Einfach, fair.",
+            price_desc: "Keine Tricks. 7 Tage kostenlos, dann ein Preis für alles.",
+            price_plan: "MacCare Pro", price_period: "7 Tage kostenlos · Jederzeit kündbar",
+            price_f1: "Alle Funktionen inklusive", price_f2: "Audio Producer Mode",
+            price_f3: "Unbegrenzte Scans & Bereinigungen", price_f4: "Menüleisten-Monitor",
+            price_f5: "TreeMap Speicher-Visualisierung", price_f6: "Vollständiger App-Deinstaller",
+            price_f7: "Aktivitäts-Log", price_f8: "Alle zukünftigen Updates",
+            price_cta: "⬇ Kostenlos testen",
+            price_meta: "Apple-notarisiert · macOS 14+ · 1,3 MB",
+            footer_copy: "© 2026 Martin Wiederhold. MacCare ist nicht mit Apple Inc. oder MacPaw verbunden."
+        }
+    };
+
+    let currentLang = 'en';
+
+    function setLang(lang) {
+        currentLang = lang;
+        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        document.getElementById('btn-de').classList.toggle('active', lang === 'de');
+        document.documentElement.lang = lang;
+
+        // Update all data-i18n elements
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[lang][key]) {
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    el.placeholder = translations[lang][key];
+                } else {
+                    el.innerHTML = translations[lang][key];
+                }
+            }
+        });
+
+        // Save preference
+        localStorage.setItem('maccare-lang', lang);
+    }
+
+    // Auto-detect language from browser or saved preference
+    (function() {
+        const saved = localStorage.getItem('maccare-lang');
+        if (saved) { setLang(saved); return; }
+        const browserLang = navigator.language || navigator.userLanguage;
+        if (browserLang && browserLang.startsWith('de')) { setLang('de'); }
+    })();
 </script>
 
 </body>
