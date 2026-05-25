@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MacCare — Your Mac, Safely Cleaned</title>
+    <meta name="description" content="MacCare is the only Mac cleaner with Audio Producer Mode. Protects Logic Pro, Kontakt, and all your plugins while cleaning up to 20GB of junk. Built by a music producer who got burned by CleanMyMac.">
+    <meta name="keywords" content="mac cleaner, cleanmymac alternative, mac cleanup tool, mac junk cleaner, audio producer mac, logic pro cleaner">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-deep: #0B0518;
+            --bg-mid: #150D2E;
+            --bg-card: rgba(255,255,255,0.04);
+            --bg-card-hover: rgba(255,255,255,0.07);
+            --accent-pink: #D946EF;
+            --accent-pink-hi: #F472B6;
+            --accent-magenta: #A21CAF;
+            --accent-purple: #7C3AED;
+            --text-primary: #FFFFFF;
+            --text-secondary: rgba(255,255,255,0.65);
+            --text-tertiary: rgba(255,255,255,0.4);
+            --green: #4ADE80;
+            --yellow: #FACC15;
+            --orange: #FB923C;
+            --red: #EF4444;
+            --blue: #3B82F6;
+            --font-body: 'DM Sans', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ═══ AMBIENT BACKGROUND ═══ */
+        .ambient-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .ambient-bg .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.3;
+            animation: float 20s ease-in-out infinite;
+        }
+        .ambient-bg .orb-1 {
+            width: 600px; height: 600px;
+            background: var(--accent-magenta);
+            top: -200px; right: -100px;
+            animation-delay: 0s;
+        }
+        .ambient-bg .orb-2 {
+            width: 500px; height: 500px;
+            background: var(--accent-purple);
+            bottom: 20%; left: -150px;
+            animation-delay: -7s;
+        }
+        .ambient-bg .orb-3 {
+            width: 400px; height: 400px;
+            background: var(--accent-pink);
+            top: 50%; right: 10%;
+            animation-delay: -14s;
+            opacity: 0.15;
+        }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -40px) scale(1.05); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
+        }
+
+        /* ═══ NAV ═══ */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 16px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            background: rgba(11,5,24,0.7);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        .nav-logo .sparkle { font-size: 24px; }
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--text-primary); }
+        .nav-cta {
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-magenta));
+            color: white !important;
+            padding: 8px 20px;
+            border-radius: 100px;
+            font-weight: 600 !important;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .nav-cta:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 30px rgba(217,70,239,0.3);
+        }
+
+        /* ═══ HERO ═══ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 24px 80px;
+            position: relative;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: rgba(217,70,239,0.12);
+            border: 1px solid rgba(217,70,239,0.25);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--accent-pink-hi);
+            margin-bottom: 32px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+        .hero h1 {
+            font-size: clamp(44px, 7vw, 80px);
+            font-weight: 700;
+            letter-spacing: -0.035em;
+            line-height: 1.05;
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease-out 0.1s both;
+        }
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, var(--accent-pink-hi), var(--accent-pink), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-sub {
+            font-size: clamp(17px, 2.2vw, 20px);
+            color: var(--text-secondary);
+            max-width: 580px;
+            margin-bottom: 48px;
+            line-height: 1.6;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 36px;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-magenta));
+            color: white;
+            border: none;
+            border-radius: 100px;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: var(--font-body);
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(217,70,239,0.25);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 40px rgba(217,70,239,0.4);
+        }
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 36px;
+            background: rgba(255,255,255,0.06);
+            color: var(--text-primary);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 100px;
+            font-size: 16px;
+            font-weight: 500;
+            font-family: var(--font-body);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.2);
+        }
+        .hero-meta {
+            margin-top: 24px;
+            font-size: 13px;
+            color: var(--text-tertiary);
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        /* ═══ APP PREVIEW ═══ */
+        .app-preview {
+            max-width: 1000px;
+            margin: -20px auto 0;
+            padding: 0 24px;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+        .app-preview .window {
+            background: linear-gradient(170deg, #1A0B2E, #2D1B4E);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.08);
+            overflow: hidden;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5), 0 0 80px rgba(217,70,239,0.08);
+        }
+        .window-bar {
+            padding: 12px 16px;
+            display: flex;
+            gap: 8px;
+            background: rgba(0,0,0,0.3);
+        }
+        .window-dot {
+            width: 12px; height: 12px;
+            border-radius: 50%;
+        }
+        .window-dot.r { background: #FF5F57; }
+        .window-dot.y { background: #FFBD2E; }
+        .window-dot.g { background: #28C840; }
+        .window-content {
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+        .window-mockup {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 24px;
+            width: 100%;
+        }
+        .mockup-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .mockup-sidebar-item {
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .mockup-sidebar-item.active {
+            background: rgba(217,70,239,0.15);
+            color: var(--text-primary);
+        }
+        .mockup-main {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .mockup-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .mockup-card .label {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+        .mockup-card .value {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .mockup-card .value.pink { color: var(--accent-pink); }
+        .mockup-card .value.green { color: var(--green); }
+        .mockup-card .value.blue { color: var(--blue); }
+
+        /* ═══ FEATURES ═══ */
+        .section {
+            padding: 120px 24px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .section-label {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-pink);
+            margin-bottom: 16px;
+        }
+        .section-title {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+        .section-desc {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 64px;
+            line-height: 1.6;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.3s;
+        }
+        .feature-card:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(217,70,239,0.15);
+            transform: translateY(-4px);
+        }
+        .feature-icon {
+            width: 48px; height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            letter-spacing: -0.01em;
+        }
+        .feature-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ═══ AUDIO PRODUCER SECTION ═══ */
+        .audio-section {
+            padding: 120px 24px;
+            position: relative;
+        }
+        .audio-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(217,70,239,0.08), rgba(124,58,237,0.08));
+            border: 1px solid rgba(217,70,239,0.15);
+            border-radius: 24px;
+            padding: 64px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+        .audio-content .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(217,70,239,0.15);
+            padding: 4px 14px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent-pink-hi);
+            margin-bottom: 24px;
+        }
+        .audio-content h2 {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+            line-height: 1.15;
+        }
+        .audio-content p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+        .protected-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .protected-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .protected-item .shield {
+            width: 28px; height: 28px;
+            background: rgba(74,222,128,0.12);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        /* ═══ COMPARISON ═══ */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 48px;
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .comparison-table th {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-tertiary);
+        }
+        .comparison-table th:nth-child(2) { color: var(--accent-pink); }
+        .comparison-table td { font-size: 15px; }
+        .comparison-table td:first-child { color: var(--text-secondary); }
+        .comparison-table .check { color: var(--green); font-size: 18px; }
+        .comparison-table .cross { color: var(--red); font-size: 18px; opacity: 0.5; }
+        .comparison-table .highlight-col {
+            background: rgba(217,70,239,0.04);
+        }
+
+        /* ═══ PRICING ═══ */
+        .pricing-card {
+            max-width: 440px;
+            margin: 0 auto;
+            background: linear-gradient(170deg, rgba(217,70,239,0.06), rgba(124,58,237,0.04));
+            border: 1px solid rgba(217,70,239,0.2);
+            border-radius: 24px;
+            padding: 48px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 200px; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-pink), transparent);
+        }
+        .pricing-amount {
+            font-size: 56px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin: 24px 0 4px;
+        }
+        .pricing-amount span { font-size: 20px; font-weight: 400; color: var(--text-secondary); }
+        .pricing-period {
+            color: var(--text-tertiary);
+            font-size: 15px;
+            margin-bottom: 32px;
+        }
+        .pricing-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 36px;
+        }
+        .pricing-features li {
+            padding: 10px 0;
+            font-size: 15px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .pricing-features li::before {
+            content: '✓';
+            color: var(--green);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* ═══ FOOTER ═══ */
+        footer {
+            padding: 64px 24px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        footer p {
+            color: var(--text-tertiary);
+            font-size: 13px;
+        }
+        footer a { color: var(--text-secondary); text-decoration: none; }
+        footer a:hover { color: var(--text-primary); }
+
+        /* ═══ ANIMATIONS ═══ */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ═══ RESPONSIVE ═══ */
+        @media (max-width: 768px) {
+            nav { padding: 12px 20px; }
+            .nav-links a:not(.nav-cta) { display: none; }
+            .audio-inner { grid-template-columns: 1fr; padding: 32px 24px; }
+            .window-mockup { grid-template-columns: 1fr; }
+            .mockup-sidebar { display: none; }
+            .comparison-table { font-size: 13px; }
+            .comparison-table th, .comparison-table td { padding: 10px 8px; }
+            .pricing-card { padding: 32px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="ambient-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+</div>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+    <a href="#" class="nav-logo">
+        <span class="sparkle">✦</span> MacCare
+    </a>
+    <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#audio">Audio Mode</a>
+        <a href="#compare">Compare</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#download" class="nav-cta">Download Free Trial</a>
+    </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+    <div class="hero-badge">🎵 Built by an audio producer — for audio producers</div>
+    <h1>Your Mac, <span class="gradient-text">safely cleaned.</span></h1>
+    <p class="hero-sub">MacCare finds and removes up to 20 GB of junk — without touching your Logic Pro plugins, Kontakt libraries, or audio settings. The only Mac cleaner with Audio Producer Mode.</p>
+    <div class="hero-actions">
+        <a href="#download" class="btn-primary">⬇ Download Free Trial</a>
+        <a href="#features" class="btn-secondary">See Features →</a>
+    </div>
+    <p class="hero-meta">macOS 14+ · 1.3 MB · No subscription required during trial · Apple-notarized</p>
+</section>
+
+<!-- ═══ APP PREVIEW ═══ -->
+<div class="app-preview">
+    <div class="window">
+        <div class="window-bar">
+            <div class="window-dot r"></div>
+            <div class="window-dot y"></div>
+            <div class="window-dot g"></div>
+        </div>
+        <div class="window-content">
+            <div class="window-mockup">
+                <div class="mockup-sidebar">
+                    <div class="mockup-sidebar-item active">✦ Smart Care</div>
+                    <div class="mockup-sidebar-item">🗑 Cleanup</div>
+                    <div class="mockup-sidebar-item">🛡 Protection</div>
+                    <div class="mockup-sidebar-item">⚡ Performance</div>
+                    <div class="mockup-sidebar-item">📦 Apps</div>
+                    <div class="mockup-sidebar-item">🔍 Disk Map</div>
+                    <div class="mockup-sidebar-item">📊 Activity</div>
+                </div>
+                <div class="mockup-main">
+                    <div class="mockup-card">
+                        <div class="label">Junk Found</div>
+                        <div class="value pink">14.2 GB</div>
+                    </div>
+                    <div class="mockup-card">
+                        <div class="label">Security</div>
+                        <div class="value green">All Clear</div>
+                    </div>
+                    <div class="mockup-card">
+                        <div class="label">Startup Items</div>
+                        <div class="value blue">3 Found</div>
+                    </div>
+                    <div class="mockup-card" style="grid-column: span 2;">
+                        <div class="label">Audio Producer Mode</div>
+                        <div class="value" style="font-size: 15px; color: var(--green);">🎵 Active — Logic Pro, Kontakt 7, Soundtoys protected</div>
+                    </div>
+                    <div class="mockup-card">
+                        <div class="label">Apps</div>
+                        <div class="value blue">23</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ FEATURES ═══ -->
+<section class="section reveal" id="features">
+    <div class="section-label">Features</div>
+    <h2 class="section-title">Everything your Mac needs.<br>Nothing it doesn't.</h2>
+    <p class="section-desc">MacCare scans 8 categories of system junk, finds duplicates, manages startup items, and visualizes disk usage — with a safety-first approach that CleanMyMac can't match.</p>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon" style="background: rgba(217,70,239,0.12);">🧹</div>
+            <h3>Smart Cleanup</h3>
+            <p>Parallel scanning across 8 junk categories. Risk-classified items with color-coded safety indicators. Only safe items are selected by default.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon" style="background: rgba(59,130,246,0.12);">🗺</div>
+            <h3>Visual Disk Map</h3>
+            <p>Interactive TreeMap visualization shows exactly where your space went. Drill-down navigation, color-coded by file type, with protected paths clearly marked.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon" style="background: rgba(74,222,128,0.12);">🛡</div>
+            <h3>Safety Guard</h3>
+            <p>Hardcoded whitelist of paths that are never touched — Documents, Photos, Music, Mail, SSH keys. Every deletion goes to Trash with full Put-Back support.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon" style="background: rgba(251,146,60,0.12);">📦</div>
+            <h3>Complete Uninstaller</h3>
+            <p>Removes apps and all their hidden remnants — caches, preferences, containers, launch agents, logs. Finds what Finder misses.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon" style="background: rgba(250,204,21,0.12);">⚡</div>
+            <h3>Startup Optimizer</h3>
+            <p>Manage Login Items, LaunchAgents, and system daemons. Toggle items on/off with impact indicators. Keep your Mac booting fast.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon" style="background: rgba(244,114,182,0.12);">📊</div>
+            <h3>Menu Bar Monitor</h3>
+            <p>Always-visible disk space indicator in your menu bar. Quick-scan access and last cleanup stats at a glance.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ AUDIO PRODUCER MODE ═══ -->
+<section class="audio-section reveal" id="audio">
+    <div class="audio-inner">
+        <div class="audio-content">
+            <div class="badge">🎵 Exclusive Feature</div>
+            <h2>Audio Producer Mode</h2>
+            <p>Built by a Logic Pro user who got burned by CleanMyMac deleting AudioUnitCache and triggering a 30-minute plugin re-validation. Never again.</p>
+            <p>When enabled, MacCare automatically protects all audio-related paths — plugins, sample libraries, presets, and DAW caches. No other cleaner does this.</p>
+        </div>
+        <div class="protected-list">
+            <div class="protected-item"><div class="shield">🔒</div> Logic Pro — Plugins, Preferences & Caches</div>
+            <div class="protected-item"><div class="shield">🔒</div> Native Instruments — Kontakt 7, Komplete</div>
+            <div class="protected-item"><div class="shield">🔒</div> Soundtoys — Effects & Presets</div>
+            <div class="protected-item"><div class="shield">🔒</div> AudioUnitCache — Never re-validate again</div>
+            <div class="protected-item"><div class="shield">🔒</div> Ableton, Cubase, Pro Tools — Settings & Data</div>
+            <div class="protected-item"><div class="shield">🔒</div> Sample Libraries — NI, Spectrasonics, Steinberg</div>
+            <div class="protected-item"><div class="shield">🔒</div> Audio Presets — All plugin presets protected</div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ COMPARISON ═══ -->
+<section class="section reveal" id="compare">
+    <div class="section-label">Comparison</div>
+    <h2 class="section-title">MacCare vs CleanMyMac X</h2>
+    <p class="section-desc">Same power, more safety, one-third the price.</p>
+    <table class="comparison-table">
+        <thead>
+            <tr>
+                <th>Feature</th>
+                <th class="highlight-col">MacCare</th>
+                <th>CleanMyMac X</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Junk Cleanup</td><td class="highlight-col"><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+            <tr><td>Disk Visualization</td><td class="highlight-col"><span class="check">✓</span> TreeMap</td><td><span class="check">✓</span> Space Lens</td></tr>
+            <tr><td>App Uninstaller</td><td class="highlight-col"><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+            <tr><td>Startup Optimizer</td><td class="highlight-col"><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+            <tr><td>Menu Bar Monitor</td><td class="highlight-col"><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+            <tr><td>Risk Classification per Item</td><td class="highlight-col"><span class="check">✓</span> 🟢🟡🟠🔴</td><td><span class="cross">✗</span></td></tr>
+            <tr><td>Audio Producer Mode</td><td class="highlight-col"><span class="check">✓</span> 🎵</td><td><span class="cross">✗</span></td></tr>
+            <tr><td>Safety Whitelist</td><td class="highlight-col"><span class="check">✓</span> Hardcoded</td><td><span class="cross">✗</span></td></tr>
+            <tr><td>Put-Back from Trash</td><td class="highlight-col"><span class="check">✓</span> Full support</td><td>Partial</td></tr>
+            <tr><td>Cleanup Activity Log</td><td class="highlight-col"><span class="check">✓</span></td><td><span class="cross">✗</span></td></tr>
+            <tr><td>Confirm Dialog with Risk</td><td class="highlight-col"><span class="check">✓</span></td><td><span class="cross">✗</span></td></tr>
+            <tr><td>Price</td><td class="highlight-col" style="color: var(--green); font-weight: 700;">$29/year</td><td style="color: var(--text-tertiary);">$89/year</td></tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- ═══ PRICING ═══ -->
+<section class="section reveal" id="pricing">
+    <div class="section-label">Pricing</div>
+    <h2 class="section-title">Simple, fair pricing.</h2>
+    <p class="section-desc">No tricks. 7 days free, then one price for everything.</p>
+    <div class="pricing-card">
+        <div class="section-label">MacCare Pro</div>
+        <div class="pricing-amount">$29 <span>/ year</span></div>
+        <p class="pricing-period">7-day free trial · Cancel anytime</p>
+        <ul class="pricing-features">
+            <li>All features included</li>
+            <li>Audio Producer Mode</li>
+            <li>Unlimited scans & cleanups</li>
+            <li>Menu Bar Monitor</li>
+            <li>TreeMap Disk Visualization</li>
+            <li>Complete App Uninstaller</li>
+            <li>Activity Log</li>
+            <li>All future updates</li>
+        </ul>
+        <a href="#download" class="btn-primary" style="width: 100%; justify-content: center;" id="download">⬇ Start Free Trial</a>
+        <p style="margin-top: 16px; font-size: 13px; color: var(--text-tertiary);">Apple-notarized · macOS 14+ · 1.3 MB</p>
+    </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+    <p style="margin-bottom: 8px;">
+        <a href="#features">Features</a> · <a href="#audio">Audio Mode</a> · <a href="#compare">Compare</a> · <a href="#pricing">Pricing</a>
+    </p>
+    <p>© 2026 Martin Wiederhold. MacCare is not affiliated with Apple Inc. or MacPaw.</p>
+</footer>
+
+<!-- ═══ SCROLL REVEAL ═══ -->
+<script>
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
