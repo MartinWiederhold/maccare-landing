@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mac Running Slow? 8 Fixes That Actually Work (2026)</title>
+    <meta name="description" content="Mac running slow after update? Here are 8 proven fixes that actually work, from clearing caches and managing startup items to finding hidden resource hogs. No fluff, just solutions.">
+    <meta name="keywords" content="mac running slow, speed up mac, mac slow after update, mac lagging, mac performance, make mac faster, macbook slow">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="canonical" href="https://www.getmaccare.com/mac-running-slow">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.getmaccare.com/mac-running-slow">
+    <meta property="og:title" content="Mac Running Slow? 8 Fixes That Actually Work (2026)">
+    <meta property="og:description" content="Proven fixes for a slow Mac. Terminal commands, Activity Monitor tips, startup optimization, and safe cache cleanup.">
+    <meta name="robots" content="index, follow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg: #0B0518; --accent: #D946EF; --accent-hi: #F472B6; --green: #4ADE80; --text: #FFFFFF; --text-2: rgba(255,255,255,0.65); --text-3: rgba(255,255,255,0.4); --surface: rgba(255,255,255,0.04); --border: rgba(255,255,255,0.08); }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'DM Sans', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; }
+        .ambient { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .ambient .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.15; }
+        .ambient .o1 { width: 500px; height: 500px; background: #A21CAF; top: -150px; right: -100px; }
+        .ambient .o2 { width: 400px; height: 400px; background: #7C3AED; bottom: 30%; left: -100px; }
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; backdrop-filter: blur(20px); background: rgba(11,5,24,0.8); border-bottom: 1px solid var(--border); }
+        .nav-logo { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 700; text-decoration: none; color: white; }
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-links a { color: var(--text-2); text-decoration: none; font-size: 14px; font-weight: 500; }
+        .nav-cta { background: linear-gradient(135deg, var(--accent), #A21CAF); color: white !important; padding: 8px 20px; border-radius: 100px; font-weight: 600 !important; }
+        .hero { padding: 140px 24px 60px; text-align: center; max-width: 800px; margin: 0 auto; }
+        .hero .badge { display: inline-block; padding: 6px 16px; background: rgba(217,70,239,0.12); border: 1px solid rgba(217,70,239,0.25); border-radius: 100px; font-size: 13px; color: var(--accent-hi); margin-bottom: 20px; }
+        .hero h1 { font-size: clamp(32px, 5vw, 48px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 16px; }
+        .hero p { font-size: 18px; color: var(--text-2); max-width: 600px; margin: 0 auto; }
+        .content { max-width: 740px; margin: 0 auto; padding: 0 24px 100px; }
+        .content h2 { font-size: 28px; font-weight: 700; margin: 56px 0 16px; letter-spacing: -0.02em; }
+        .content h3 { font-size: 20px; font-weight: 600; margin: 40px 0 12px; color: var(--accent-hi); }
+        .content p { font-size: 16px; color: var(--text-2); margin-bottom: 16px; }
+        .content ul { margin: 0 0 20px 20px; color: var(--text-2); }
+        .content li { margin-bottom: 8px; font-size: 15px; }
+        .content strong { color: var(--text); }
+        .code-block { background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; margin: 16px 0 24px; font-family: 'SF Mono', Monaco, monospace; font-size: 14px; color: var(--green); overflow-x: auto; line-height: 1.6; }
+        .tip-box { background: rgba(217,70,239,0.06); border: 1px solid rgba(217,70,239,0.15); border-radius: 16px; padding: 24px 28px; margin: 32px 0; }
+        .tip-box .tip-title { font-size: 15px; font-weight: 600; color: var(--accent-hi); margin-bottom: 8px; }
+        .tip-box p { margin-bottom: 0; }
+        .cta-box { background: linear-gradient(135deg, rgba(217,70,239,0.08), rgba(124,58,237,0.06)); border: 1px solid rgba(217,70,239,0.2); border-radius: 20px; padding: 40px; margin: 48px 0; text-align: center; }
+        .cta-box h3 { color: white; margin-top: 0; }
+        .cta-box p { max-width: 500px; margin: 0 auto 20px; }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; background: linear-gradient(135deg, var(--accent), #A21CAF); color: white; border-radius: 100px; font-size: 15px; font-weight: 600; text-decoration: none; box-shadow: 0 4px 20px rgba(217,70,239,0.25); }
+        footer { padding: 48px 24px; text-align: center; border-top: 1px solid var(--border); }
+        footer p { color: var(--text-3); font-size: 13px; }
+        footer a { color: var(--text-2); text-decoration: none; }
+        @media (max-width: 768px) { nav { padding: 12px 16px; } .nav-links a:not(.nav-cta) { display: none; } }
+    </style>
+</head>
+<body>
+
+<div class="ambient"><div class="orb o1"></div><div class="orb o2"></div></div>
+
+<nav>
+    <a href="/" class="nav-logo">✦ MacCare</a>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/vs-cleanmymac">vs CleanMyMac</a>
+        <a href="/#pricing">Pricing</a>
+        <a href="https://github.com/MartinWiederhold/maccare-releases/releases/download/v1.4.0/MacCare-Installer.dmg" class="nav-cta">Download Free Trial</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="badge">Updated May 2026</div>
+    <h1>Mac Running Slow? 8 Fixes That Actually Work</h1>
+    <p>No fluff, no "restart your Mac" advice. These are the real fixes for a slow Mac, from quick Terminal commands to finding the hidden processes eating your resources.</p>
+</section>
+
+<div class="content">
+
+    <h2>Why Your Mac is Slow</h2>
+    <p>A slow Mac usually comes down to one of four things: not enough free storage (macOS needs 10-15% free to run smoothly), too many startup items loading at boot, runaway processes consuming CPU in the background, or accumulated cache data slowing down app launches.</p>
+    <p>Let's fix each one.</p>
+
+    <h2>1. Check Available Storage (The #1 Cause)</h2>
+    <p>When your Mac has less than 10-15% free storage, everything slows down. macOS uses free disk space for virtual memory, caching, and system operations. Below 10%, you'll notice significant lag.</p>
+    <div class="code-block">df -h /</div>
+    <p>If you're below 20 GB free on a 256 GB drive (or below 50 GB on a 512 GB drive), storage is likely your bottleneck. See our <a href="/how-to-free-up-space-on-mac" style="color: var(--accent-hi);">guide to freeing up space on Mac</a> for detailed cleanup steps.</p>
+
+    <h2>2. Find Resource-Hungry Processes</h2>
+    <p>Open Activity Monitor (search for it in Spotlight with Cmd+Space) and click the CPU tab. Sort by "% CPU" descending. Anything consistently above 100% is a problem.</p>
+    <p>Common culprits after an update:</p>
+    <ul>
+        <li><strong>mds_stores / mdworker</strong>: Spotlight is re-indexing. This is normal after an update and resolves itself in 1-24 hours. Let it finish.</li>
+        <li><strong>photolibraryd</strong>: Photos is re-analyzing your library for face recognition. Can take hours with large libraries.</li>
+        <li><strong>kernel_task</strong>: macOS throttling CPU to manage heat. Usually resolves after indexing finishes.</li>
+        <li><strong>WindowServer</strong>: High usage here means too many windows, displays, or transparency effects.</li>
+    </ul>
+    <p>If a specific app is eating CPU and you don't need it, force quit it (Cmd+Option+Esc).</p>
+
+    <h2>3. Reduce Startup Items</h2>
+    <p>Too many apps launching at login slows down boot time and eats RAM. Check what's loading:</p>
+    <p>System Settings > General > Login Items</p>
+    <p>Remove anything you don't need launching at startup. Also check LaunchAgents for hidden startup items:</p>
+    <div class="code-block">ls ~/Library/LaunchAgents/
+ls /Library/LaunchAgents/</div>
+    <p>You'll often find old agents from apps you uninstalled long ago, still running in the background and using resources.</p>
+
+    <h2>4. Run Maintenance Scripts</h2>
+    <p>macOS has built-in maintenance scripts that clear logs, rebuild databases, and clean up system caches. They're supposed to run automatically but sometimes don't (especially on laptops that are asleep at night).</p>
+    <div class="code-block">sudo periodic daily weekly monthly</div>
+    <p>This takes 1-2 minutes and can noticeably improve performance by clearing accumulated log files and rotating databases.</p>
+
+    <h2>5. Rebuild Spotlight Index</h2>
+    <p>A corrupted Spotlight index can cause constant CPU usage and slow searches. Force a fresh index:</p>
+    <div class="code-block">sudo mdutil -E /</div>
+    <p>Spotlight will re-index in the background over the next few hours. Your Mac might feel slower during indexing but will be faster once it's done.</p>
+
+    <h2>6. Clear DNS Cache</h2>
+    <p>If your Mac is slow specifically with internet browsing (pages take forever to load), clearing the DNS cache often helps:</p>
+    <div class="code-block">sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder</div>
+    <p>This forces your Mac to do fresh DNS lookups instead of relying on potentially stale cached data.</p>
+
+    <h2>7. Reduce Transparency and Motion Effects</h2>
+    <p>If your Mac is older or has integrated graphics, the macOS visual effects (transparency, window animations, blur effects) can consume significant GPU resources.</p>
+    <p>System Settings > Accessibility > Display > check "Reduce transparency" and "Reduce motion"</p>
+    <p>This makes a noticeable difference on MacBook Airs and older Macs, especially when using multiple desktops or lots of windows.</p>
+
+    <h2>8. Clear Accumulated Caches</h2>
+    <p>Over time, app caches can grow to 10-20 GB and slow down both app launches and disk I/O. Clearing them forces apps to rebuild fresh, smaller caches.</p>
+    <div class="code-block">du -sh ~/Library/Caches</div>
+    <p>If it's over 5 GB, clearing it will help. You can do this manually (rm -rf ~/Library/Caches/*) or use a cleanup tool that classifies which caches are safe to delete and which aren't.</p>
+
+    <div class="tip-box">
+        <div class="tip-title">Why "safe to delete" matters</div>
+        <p>Not all caches are equal. Browser caches are safe to clear. But deleting AudioUnitCache (if you use Logic Pro) triggers a 30-minute plugin re-validation. Deleting IDE caches (Xcode DerivedData) means rebuilding on next compile. A good cleaner tells you the risk level of each item before you delete it.</p>
+    </div>
+
+    <div class="cta-box">
+        <h3>Fix all of this automatically with MacCare</h3>
+        <p>MacCare scans your Mac for performance issues, identifies startup items to disable, finds junk caches, and classifies every item by risk level so you know exactly what's safe to remove.</p>
+        <a href="https://github.com/MartinWiederhold/maccare-releases/releases/download/v1.4.0/MacCare-Installer.dmg" class="btn">⬇ Download Free Trial</a>
+        <p style="margin-top: 12px; font-size: 13px; color: var(--text-3);">macOS 14+ · 1.6 MB · Apple-notarized · $29/year after 7-day trial</p>
+    </div>
+
+    <h2>When to Consider a Clean Install</h2>
+    <p>If your Mac is still slow after all these steps, especially after a major macOS upgrade (e.g. jumping from Monterey to Sonoma), a clean install might be your best option. The upgrade process carries forward old system files, caches, and preferences that can conflict with the new OS.</p>
+    <p>Back up everything to Time Machine or an external drive, then boot from a macOS installer USB and do a fresh install. This is the nuclear option but it works.</p>
+
+    <h2>Quick Summary</h2>
+    <ul>
+        <li>Check storage first: below 10-15% free = slow Mac</li>
+        <li>Activity Monitor shows you exactly what's eating CPU</li>
+        <li>Remove unnecessary startup items (Login Items + LaunchAgents)</li>
+        <li>Run maintenance scripts: sudo periodic daily weekly monthly</li>
+        <li>Clear caches, but be careful with audio/dev caches</li>
+        <li>After major updates: give Spotlight 1-24 hours to finish re-indexing</li>
+    </ul>
+
+    <div class="tip-box">
+        <div class="tip-title">Related guides</div>
+        <p><a href="/how-to-free-up-space-on-mac" style="color: var(--accent-hi);">How to free up space on Mac (10 methods)</a><br>
+        <a href="/best-mac-cleaner-2026" style="color: var(--accent-hi);">Best Mac cleaner apps in 2026</a><br>
+        <a href="/vs-cleanmymac" style="color: var(--accent-hi);">MacCare vs CleanMyMac: detailed comparison</a></p>
+    </div>
+
+</div>
+
+<footer>
+    <p style="margin-bottom: 8px;">
+        <a href="/">Home</a> · <a href="/vs-cleanmymac">vs CleanMyMac</a> · <a href="/#pricing">Pricing</a>
+    </p>
+    <p>© 2026 Martin Wiederhold. MacCare is not affiliated with Apple Inc.</p>
+</footer>
+
+<script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+</body>
+</html>

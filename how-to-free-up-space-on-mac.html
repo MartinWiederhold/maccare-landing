@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Free Up Space on Mac in 2026 (10 Proven Methods)</title>
+    <meta name="description" content="Your Mac says storage is full? Here are 10 proven methods to free up 20-50 GB on your Mac, from clearing caches to finding hidden space hogs. Step-by-step Terminal commands included.">
+    <meta name="keywords" content="free up space on mac, mac storage full, clear mac cache, mac running out of space, how to clean mac storage, mac other storage">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="canonical" href="https://www.getmaccare.com/how-to-free-up-space-on-mac">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.getmaccare.com/how-to-free-up-space-on-mac">
+    <meta property="og:title" content="How to Free Up Space on Mac in 2026 (10 Proven Methods)">
+    <meta property="og:description" content="Step-by-step guide to reclaim 20-50 GB on your Mac. Terminal commands, hidden space hogs, and safe cleanup methods.">
+    <meta name="robots" content="index, follow">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": "How to Free Up Space on Mac",
+        "description": "10 proven methods to free up 20-50 GB on your Mac",
+        "step": [
+            {"@type": "HowToStep", "name": "Find what's using your space", "text": "Run du -sh ~/Library/* in Terminal to see the biggest folders"},
+            {"@type": "HowToStep", "name": "Clear user caches", "text": "Delete ~/Library/Caches safely"},
+            {"@type": "HowToStep", "name": "Remove Time Machine snapshots", "text": "Use tmutil to delete local snapshots"},
+            {"@type": "HowToStep", "name": "Clean up Xcode data", "text": "Remove DerivedData and old simulators"},
+            {"@type": "HowToStep", "name": "Use a Mac cleaner tool", "text": "Tools like MacCare automate safe cleanup with risk classification"}
+        ]
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0B0518; --accent: #D946EF; --accent-hi: #F472B6;
+            --green: #4ADE80; --text: #FFFFFF; --text-2: rgba(255,255,255,0.65);
+            --text-3: rgba(255,255,255,0.4); --surface: rgba(255,255,255,0.04);
+            --border: rgba(255,255,255,0.08);
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'DM Sans', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; }
+        .ambient { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .ambient .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.15; }
+        .ambient .o1 { width: 500px; height: 500px; background: #A21CAF; top: -150px; right: -100px; }
+        .ambient .o2 { width: 400px; height: 400px; background: #7C3AED; bottom: 30%; left: -100px; }
+
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; backdrop-filter: blur(20px); background: rgba(11,5,24,0.8); border-bottom: 1px solid var(--border); }
+        .nav-logo { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 700; text-decoration: none; color: white; }
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-links a { color: var(--text-2); text-decoration: none; font-size: 14px; font-weight: 500; }
+        .nav-cta { background: linear-gradient(135deg, var(--accent), #A21CAF); color: white !important; padding: 8px 20px; border-radius: 100px; font-weight: 600 !important; }
+
+        .hero { padding: 140px 24px 60px; text-align: center; max-width: 800px; margin: 0 auto; }
+        .hero .badge { display: inline-block; padding: 6px 16px; background: rgba(217,70,239,0.12); border: 1px solid rgba(217,70,239,0.25); border-radius: 100px; font-size: 13px; color: var(--accent-hi); margin-bottom: 20px; }
+        .hero h1 { font-size: clamp(32px, 5vw, 48px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 16px; }
+        .hero p { font-size: 18px; color: var(--text-2); max-width: 600px; margin: 0 auto; }
+
+        .content { max-width: 740px; margin: 0 auto; padding: 0 24px 100px; }
+        .content h2 { font-size: 28px; font-weight: 700; margin: 56px 0 16px; letter-spacing: -0.02em; }
+        .content h3 { font-size: 20px; font-weight: 600; margin: 40px 0 12px; color: var(--accent-hi); }
+        .content p { font-size: 16px; color: var(--text-2); margin-bottom: 16px; }
+        .content ul, .content ol { margin: 0 0 20px 20px; color: var(--text-2); }
+        .content li { margin-bottom: 8px; font-size: 15px; }
+        .content strong { color: var(--text); }
+
+        .code-block {
+            background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+            border-radius: 12px; padding: 16px 20px; margin: 16px 0 24px;
+            font-family: 'SF Mono', Monaco, monospace; font-size: 14px;
+            color: var(--green); overflow-x: auto; line-height: 1.6;
+        }
+
+        .tip-box {
+            background: rgba(217,70,239,0.06); border: 1px solid rgba(217,70,239,0.15);
+            border-radius: 16px; padding: 24px 28px; margin: 32px 0;
+        }
+        .tip-box .tip-title { font-size: 15px; font-weight: 600; color: var(--accent-hi); margin-bottom: 8px; }
+        .tip-box p { margin-bottom: 0; }
+
+        .cta-box {
+            background: linear-gradient(135deg, rgba(217,70,239,0.08), rgba(124,58,237,0.06));
+            border: 1px solid rgba(217,70,239,0.2); border-radius: 20px;
+            padding: 40px; margin: 48px 0; text-align: center;
+        }
+        .cta-box h3 { color: white; margin-top: 0; }
+        .cta-box p { max-width: 500px; margin: 0 auto 20px; }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; background: linear-gradient(135deg, var(--accent), #A21CAF); color: white; border-radius: 100px; font-size: 15px; font-weight: 600; text-decoration: none; box-shadow: 0 4px 20px rgba(217,70,239,0.25); }
+
+        .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px 28px; margin: 32px 0; }
+        .toc-title { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-3); margin-bottom: 12px; }
+        .toc a { display: block; color: var(--text-2); text-decoration: none; font-size: 15px; padding: 4px 0; }
+        .toc a:hover { color: var(--accent-hi); }
+
+        footer { padding: 48px 24px; text-align: center; border-top: 1px solid var(--border); }
+        footer p { color: var(--text-3); font-size: 13px; }
+        footer a { color: var(--text-2); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            nav { padding: 12px 16px; }
+            .nav-links a:not(.nav-cta) { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="ambient"><div class="orb o1"></div><div class="orb o2"></div></div>
+
+<nav>
+    <a href="/" class="nav-logo">✦ MacCare</a>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/vs-cleanmymac">vs CleanMyMac</a>
+        <a href="/#pricing">Pricing</a>
+        <a href="https://github.com/MartinWiederhold/maccare-releases/releases/download/v1.4.0/MacCare-Installer.dmg" class="nav-cta">Download Free Trial</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="badge">Updated May 2026</div>
+    <h1>How to Free Up Space on Your Mac (10 Proven Methods)</h1>
+    <p>Your Mac says storage is almost full? Here's how to reclaim 20 to 50 GB safely, with step-by-step instructions and Terminal commands.</p>
+</section>
+
+<div class="content">
+
+    <div class="toc">
+        <div class="toc-title">In this guide</div>
+        <a href="#find">1. Find what's eating your space</a>
+        <a href="#caches">2. Clear user caches (5-20 GB)</a>
+        <a href="#timemachine">3. Remove Time Machine snapshots (10-50 GB)</a>
+        <a href="#xcode">4. Clean up Xcode data (10-30 GB)</a>
+        <a href="#docker">5. Remove Docker data (15-60 GB)</a>
+        <a href="#apps">6. Uninstall apps properly</a>
+        <a href="#downloads">7. Clean up Downloads folder</a>
+        <a href="#mail">8. Reduce Mail attachments</a>
+        <a href="#icloud">9. Optimize iCloud storage</a>
+        <a href="#tool">10. Use a Mac cleaner tool</a>
+    </div>
+
+    <h2 id="find">1. Find What's Actually Eating Your Space</h2>
+    <p>Before deleting anything, find out where your storage actually went. Apple's built-in storage overview (System Settings > General > Storage) is often misleading and slow to update. Terminal gives you the real numbers instantly.</p>
+    <p>Open Terminal and run this command to see the 20 largest folders in your Library:</p>
+    <div class="code-block">du -sh ~/Library/* 2>/dev/null | sort -rh | head -20</div>
+    <p>This usually reveals the biggest offenders: app caches, Xcode data, IDE state files, old container data from apps you uninstalled months ago.</p>
+    <p>For a full disk overview:</p>
+    <div class="code-block">df -h /</div>
+    <p>This shows you the actual free space on your drive, which is always more accurate than the Finder or System Settings display.</p>
+
+    <h2 id="caches">2. Clear User Caches (5-20 GB)</h2>
+    <p>Your ~/Library/Caches folder stores temporary data from every app you use. Over time this can grow to 5-20 GB, especially if you use browsers, IDEs, or creative apps.</p>
+    <p>Check how much space your caches use:</p>
+    <div class="code-block">du -sh ~/Library/Caches</div>
+    <p>You can safely delete most cache folders. Apps rebuild them on next launch. To clear everything:</p>
+    <div class="code-block">rm -rf ~/Library/Caches/*</div>
+
+    <div class="tip-box">
+        <div class="tip-title">Be careful with audio production caches</div>
+        <p>If you use Logic Pro, Ableton, or other DAWs, deleting AudioUnitCache forces a plugin re-validation that can take 10-30 minutes. Delete browser and app caches, but leave audio-related caches alone unless you know what you're doing.</p>
+    </div>
+
+    <h2 id="timemachine">3. Remove Time Machine Local Snapshots (10-50 GB)</h2>
+    <p>macOS keeps local Time Machine snapshots even if you don't have a backup drive connected. These can quietly eat 10-50 GB. Most people don't even know they exist.</p>
+    <p>Check for local snapshots:</p>
+    <div class="code-block">tmutil listlocalsnapshots /</div>
+    <p>Delete all local snapshots:</p>
+    <div class="code-block">for snap in $(tmutil listlocalsnapshots / | cut -d'.' -f4); do sudo tmutil deletelocalsnapshots $snap; done</div>
+    <p>This is completely safe. Time Machine will create new snapshots when you connect your backup drive.</p>
+
+    <h2 id="xcode">4. Clean Up Xcode Data (10-30 GB)</h2>
+    <p>If you've ever installed Xcode (even just the command line tools), you might have massive amounts of leftover data:</p>
+    <div class="code-block">du -sh ~/Library/Developer/Xcode/DerivedData 2>/dev/null
+du -sh ~/Library/Developer/Xcode/iOS\ DeviceSupport 2>/dev/null
+du -sh ~/Library/Developer/CoreSimulator 2>/dev/null</div>
+    <p>DerivedData is build cache that's safe to delete entirely. iOS DeviceSupport contains data for iOS devices you've connected for debugging. Old simulators can be removed too:</p>
+    <div class="code-block">rm -rf ~/Library/Developer/Xcode/DerivedData/*
+xcrun simctl delete unavailable</div>
+
+    <h2 id="docker">5. Remove Docker Data (15-60 GB)</h2>
+    <p>Docker Desktop creates a sparse disk image (Docker.raw or Docker.qcow2) that grows over time. If you're not actively using Docker, this can be 15-60 GB of wasted space.</p>
+    <div class="code-block">ls -lh ~/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw 2>/dev/null</div>
+    <p>If you're not using Docker, uninstall it completely from Applications. If you need it, run a prune to clean up unused images and containers:</p>
+    <div class="code-block">docker system prune -a --volumes</div>
+
+    <h2 id="apps">6. Uninstall Apps Properly</h2>
+    <p>Dragging an app to Trash leaves behind caches, preferences, containers, launch agents, and logs scattered across ~/Library. A single app can leave 500 MB to several GB of remnants.</p>
+    <p>To find leftovers from apps you already deleted, check these locations:</p>
+    <div class="code-block">ls ~/Library/Application\ Support/
+ls ~/Library/Preferences/
+ls ~/Library/Caches/
+ls ~/Library/Containers/</div>
+    <p>Look for folder names matching apps you no longer have installed. For thorough uninstalls, use a dedicated uninstaller tool that finds all remnant categories automatically.</p>
+
+    <h2 id="downloads">7. Clean Up Your Downloads Folder</h2>
+    <p>Downloads is often the biggest single folder on your Mac. Old DMG installers, ZIP files, PDFs you looked at once, forgotten videos.</p>
+    <div class="code-block">du -sh ~/Downloads</div>
+    <p>Sort by size and delete what you don't need. Or sort by date and remove anything older than 6 months that you haven't touched.</p>
+
+    <h2 id="mail">8. Reduce Mail Attachments</h2>
+    <p>Mail downloads and caches every attachment locally. Over years this adds up significantly.</p>
+    <div class="code-block">du -sh ~/Library/Mail</div>
+    <p>In Mail.app: go to Preferences > Accounts > your account > uncheck "Download attachments" or set it to "Recent" to stop caching everything locally.</p>
+
+    <h2 id="icloud">9. Optimize iCloud Storage</h2>
+    <p>If you use iCloud Drive, enable "Optimize Mac Storage" to keep only recently accessed files local:</p>
+    <p>System Settings > Apple ID > iCloud > iCloud Drive > Optimize Mac Storage</p>
+    <p>This offloads files you haven't opened recently to iCloud and frees up local space. The files still appear in Finder but download on demand when you open them.</p>
+
+    <h2 id="tool">10. Use a Mac Cleaner Tool</h2>
+    <p>All the methods above work, but they require Terminal knowledge and careful attention to what you're deleting. A good Mac cleaner automates the safe parts and warns you about the risky parts.</p>
+    <p>What to look for in a Mac cleaner:</p>
+    <ul>
+        <li><strong>Risk classification</strong> per item, so you know what's safe vs. risky to delete</li>
+        <li><strong>Safety whitelist</strong> that protects critical folders like Documents, Photos, Music, and Mail</li>
+        <li><strong>Full Trash support</strong> so you can undo deletions via Put Back</li>
+        <li><strong>Visual disk map</strong> to see where your space went at a glance</li>
+        <li><strong>App uninstaller</strong> that finds all leftover remnants</li>
+    </ul>
+
+    <div class="cta-box">
+        <h3>MacCare does all of this for $29/year</h3>
+        <p>Risk-classified cleanup with color-coded safety indicators. Hardcoded whitelist protects Documents, Photos, Music and Mail. Full Trash put-back support. Visual TreeMap disk analyzer. 7-day free trial.</p>
+        <a href="https://github.com/MartinWiederhold/maccare-releases/releases/download/v1.4.0/MacCare-Installer.dmg" class="btn">⬇ Download Free Trial</a>
+        <p style="margin-top: 12px; font-size: 13px; color: var(--text-3);">macOS 14+ · 1.6 MB · Apple-notarized</p>
+    </div>
+
+    <h2>How Much Space Can You Expect to Free Up?</h2>
+    <p>Based on typical Mac usage, here's what you can expect to reclaim:</p>
+    <ul>
+        <li>Caches: 5-20 GB</li>
+        <li>Time Machine snapshots: 10-50 GB</li>
+        <li>Xcode data (if installed): 10-30 GB</li>
+        <li>Docker (if installed): 15-60 GB</li>
+        <li>App remnants from uninstalled apps: 2-10 GB</li>
+        <li>Downloads cleanup: 5-30 GB</li>
+    </ul>
+    <p>For a typical Mac that hasn't been cleaned in a year, 20-50 GB is realistic. Power users with Xcode and Docker can often reclaim 50-100 GB.</p>
+
+    <h2>What NOT to Delete</h2>
+    <p>Some folders look like junk but are actually important:</p>
+    <ul>
+        <li><strong>~/Library/Application Support</strong> for apps you still use (contains settings, databases, saved state)</li>
+        <li><strong>~/Library/Keychains</strong> (your passwords and certificates)</li>
+        <li><strong>~/.ssh</strong> (your SSH keys for Git, servers, etc.)</li>
+        <li><strong>AudioUnitCache</strong> if you use any music production software</li>
+        <li><strong>Any folder inside /System</strong> (never touch system files)</li>
+    </ul>
+
+    <div class="tip-box">
+        <div class="tip-title">Related guides</div>
+        <p><a href="/mac-running-slow" style="color: var(--accent-hi);">Mac running slow? 8 fixes that actually work</a><br>
+        <a href="/vs-cleanmymac" style="color: var(--accent-hi);">MacCare vs CleanMyMac: 2026 comparison</a><br>
+        <a href="/best-mac-cleaner-2026" style="color: var(--accent-hi);">Best Mac cleaner apps in 2026</a></p>
+    </div>
+
+</div>
+
+<footer>
+    <p style="margin-bottom: 8px;">
+        <a href="/">Home</a> · <a href="/vs-cleanmymac">vs CleanMyMac</a> · <a href="/#pricing">Pricing</a>
+    </p>
+    <p>© 2026 Martin Wiederhold. MacCare is not affiliated with Apple Inc.</p>
+</footer>
+
+<script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+</body>
+</html>
