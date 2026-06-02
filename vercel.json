@@ -5,6 +5,7 @@
     { "source": "/best-mac-cleaner-2026", "destination": "/best-mac-cleaner-2026.html" },
     { "source": "/mac-running-slow", "destination": "/mac-running-slow.html" },
     { "source": "/vs-onyx", "destination": "/vs-onyx.html" },
-    { "source": "/vs-appcleaner", "destination": "/vs-appcleaner.html" }
+    { "source": "/vs-appcleaner", "destination": "/vs-appcleaner.html" },
+    { "source": "/thanks", "destination": "/thanks.html" }
   ]
 }
