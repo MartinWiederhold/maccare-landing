@@ -793,9 +793,15 @@
         }
 
         /* ═══ PRICING ═══ */
-        .pricing-card {
-            max-width: 440px;
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            max-width: 880px;
             margin: 0 auto;
+            align-items: stretch;
+        }
+        .pricing-card {
             background: linear-gradient(170deg, rgba(217,70,239,0.06), rgba(124,58,237,0.04));
             border: 1px solid rgba(217,70,239,0.2);
             border-radius: 24px;
@@ -803,6 +809,12 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .pricing-card.featured {
+            border: 2px solid var(--accent-pink);
+            box-shadow: 0 0 40px rgba(217,70,239,0.15);
         }
         .pricing-card::before {
             content: '';
@@ -812,6 +824,25 @@
             width: 200px; height: 1px;
             background: linear-gradient(90deg, transparent, var(--accent-pink), transparent);
         }
+        .pricing-badge {
+            display: inline-block;
+            align-self: center;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.06);
+            color: var(--text-secondary);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .pricing-badge.pink {
+            background: rgba(217,70,239,0.12);
+            color: var(--accent-pink);
+            border-color: rgba(217,70,239,0.4);
+        }
+        .pricing-card .btn-primary { margin-top: auto; }
         .pricing-amount {
             font-size: 56px;
             font-weight: 700;
@@ -884,6 +915,7 @@
             .mockup-sidebar { display: none; }
             .comparison-table { font-size: 13px; }
             .comparison-table th, .comparison-table td { padding: 10px 8px; }
+            .pricing-grid { grid-template-columns: 1fr; }
             .pricing-card { padding: 32px 24px; }
             .hero-actions { display: none !important; }
             .mobile-notice { display: block !important; }
@@ -931,7 +963,7 @@
 
 <!-- ═══ HERO ═══ -->
 <section class="hero">
-    <div class="hero-badge" data-i18n="hero_badge">✦ Trusted by 100+ Mac users · Apple-notarized · 7-day free trial</div>
+    <div class="hero-badge" data-i18n="hero_badge">✦ The Mac cleaner Power Users trust · Apple-notarized · 7-day free trial</div>
     <h1><span data-i18n="hero_h1a">More storage.</span> <span class="gradient-text" data-i18n="hero_h1b">Faster Mac.</span></h1>
     <p class="hero-sub" data-i18n="hero_sub">MacCare finds and removes up to 20 GB of hidden junk like old caches, broken logs and forgotten duplicates. Your Mac runs faster with more free space, in under 2 minutes.</p>
     <div class="hero-actions">
@@ -1182,23 +1214,47 @@
 <section class="section reveal" id="pricing">
     <div class="section-label" data-i18n="price_label">Pricing</div>
     <h2 class="section-title"data-i18n="price_title">Simple, fair pricing.</h2>
-    <p class="section-desc"data-i18n="price_desc">No tricks, no hidden fees. 7 days free, then one simple price for everything.</p>
-    <div class="pricing-card">
-        <div class="section-label"data-i18n="price_plan">MacCare Pro</div>
-        <div class="pricing-amount">$29 <span>/ year</span></div>
-        <p class="pricing-period"data-i18n="price_period">7-day free trial · Cancel anytime</p>
-        <ul class="pricing-features">
-            <li data-i18n="price_f1">All features included</li>
-            <li data-i18n="price_f2">Audio Producer Mode</li>
-            <li data-i18n="price_f3">Unlimited scans & cleanups</li>
-            <li data-i18n="price_f4">Menu Bar Monitor</li>
-            <li data-i18n="price_f5">TreeMap Disk Visualization</li>
-            <li data-i18n="price_f6">Complete App Uninstaller</li>
-            <li data-i18n="price_f7">Activity Log</li>
-            <li data-i18n="price_f8">All future updates</li>
-        </ul>
-        <a href="https://buy.stripe.com/14A8wJ07KaBR3aodZves000" class="btn-primary" style="width: 100%; justify-content: center;" id="download" data-i18n="price_cta" target="_blank">⬇ Start Free Trial</a>
-        <p style="margin-top: 16px; font-size: 13px; color: var(--text-tertiary);">Apple-notarized · macOS 14+ · 1.3 MB</p>
+    <p class="section-desc"data-i18n="price_desc">No tricks. Try free for 7 days, then choose your plan.</p>
+    <div class="pricing-grid">
+        <!-- Annual -->
+        <div class="pricing-card">
+            <div class="pricing-badge" data-i18n="price_annual_badge">Most flexible</div>
+            <div class="section-label" style="margin-top:16px" data-i18n="price_annual_name">MacCare Pro</div>
+            <div class="pricing-amount">$29 <span data-i18n="price_annual_period">/ year</span></div>
+            <p class="pricing-period" data-i18n="price_annual_trial">7-day free trial · Cancel anytime</p>
+            <ul class="pricing-features">
+                <li data-i18n="price_f1">All features included</li>
+                <li data-i18n="price_f2">Audio Producer Mode</li>
+                <li data-i18n="price_f3">Unlimited scans & cleanups</li>
+                <li data-i18n="price_f4">Menu Bar Monitor</li>
+                <li data-i18n="price_f5">TreeMap Disk Visualization</li>
+                <li data-i18n="price_f6">Complete App Uninstaller</li>
+                <li data-i18n="price_f7">Activity Log</li>
+                <li data-i18n="price_f8">All future updates</li>
+            </ul>
+            <a href="https://buy.stripe.com/14A8wJ07KaBR3aodZves000" class="btn-primary" style="width: 100%; justify-content: center;" id="download" data-i18n="price_annual_cta" target="_blank">⬇ Start Free Trial</a>
+            <p style="margin-top: 16px; font-size: 13px; color: var(--text-tertiary);" data-i18n="price_annual_sub">7-day free trial · Cancel anytime</p>
+        </div>
+        <!-- Lifetime -->
+        <div class="pricing-card featured">
+            <div class="pricing-badge pink" data-i18n="price_lifetime_badge">Best value</div>
+            <div class="section-label" style="margin-top:16px" data-i18n="price_lifetime_name">MacCare Lifetime</div>
+            <div class="pricing-amount">$69 <span data-i18n="price_lifetime_period">once</span></div>
+            <p class="pricing-period" data-i18n="price_lifetime_sub">One payment. Updates forever.</p>
+            <ul class="pricing-features">
+                <li data-i18n="price_f1">All features included</li>
+                <li data-i18n="price_f2">Audio Producer Mode</li>
+                <li data-i18n="price_f3">Unlimited scans & cleanups</li>
+                <li data-i18n="price_f4">Menu Bar Monitor</li>
+                <li data-i18n="price_f5">TreeMap Disk Visualization</li>
+                <li data-i18n="price_f6">Complete App Uninstaller</li>
+                <li data-i18n="price_f7">Activity Log</li>
+                <li data-i18n="price_f8">All future updates</li>
+                <li data-i18n="price_f9">No recurring payments, ever</li>
+            </ul>
+            <a href="LIFETIME_STRIPE_LINK" class="btn-primary" style="width: 100%; justify-content: center;" data-i18n="price_lifetime_cta" target="_blank">⬇ Buy Lifetime</a>
+            <p style="margin-top: 16px; font-size: 13px; color: var(--text-tertiary);" data-i18n="price_lifetime_sub">One payment. Updates forever.</p>
+        </div>
     </div>
 </section>
 
@@ -1228,7 +1284,7 @@
             nav_features: "Features", nav_pro: "Pro Features", nav_compare: "Compare",
             nav_pricing: "Pricing", nav_download: "Download Free Trial",
             // Hero
-            hero_badge: "✦ Trusted by 100+ Mac users · Apple-notarized · 7-day free trial",
+            hero_badge: "✦ The Mac cleaner Power Users trust · Apple-notarized · 7-day free trial",
             hero_h1a: "More storage.", hero_h1b: "Faster Mac.",
             hero_sub: "MacCare finds and removes up to 20 GB of hidden junk like old caches, broken logs and forgotten duplicates. Your Mac runs faster with more free space, in under 2 minutes.",
             hero_cta: "⬇ Download Free Trial", hero_secondary: "See Features →",
@@ -1290,12 +1346,20 @@
             cmp_confirm: "Confirm Dialog with Risk",
             // Pricing
             price_label: "Pricing", price_title: "Simple, fair pricing.",
-            price_desc: "No tricks, no hidden fees. 7 days free, then one simple price for everything.",
+            price_desc: "No tricks. Try free for 7 days, then choose your plan.",
             price_plan: "MacCare Pro", price_period: "7-day free trial · Cancel anytime",
             price_f1: "All features included", price_f2: "Audio Producer Mode",
             price_f3: "Unlimited scans & cleanups", price_f4: "Menu Bar Monitor",
             price_f5: "TreeMap Disk Visualization", price_f6: "Complete App Uninstaller",
             price_f7: "Activity Log", price_f8: "All future updates",
+            price_f9: "No recurring payments, ever",
+            price_annual_badge: "Most flexible", price_annual_name: "MacCare Pro",
+            price_annual_period: "/ year", price_annual_trial: "7-day free trial · Cancel anytime",
+            price_annual_cta: "⬇ Start Free Trial",
+            price_annual_sub: "7-day free trial · Cancel anytime",
+            price_lifetime_badge: "Best value", price_lifetime_name: "MacCare Lifetime",
+            price_lifetime_period: "once", price_lifetime_sub: "One payment. Updates forever.",
+            price_lifetime_cta: "⬇ Buy Lifetime",
             price_cta: "⬇ Start Free Trial",
             price_meta: "Apple-notarized · macOS 14+ · 1.3 MB",
             // Footer
@@ -1304,7 +1368,7 @@
         de: {
             nav_features: "Funktionen", nav_pro: "Pro-Funktionen", nav_compare: "Vergleich",
             nav_pricing: "Preise", nav_download: "Kostenlos testen",
-            hero_badge: "✦ Von 100+ Mac-Nutzern vertraut · Apple-notarisiert · 7 Tage kostenlos",
+            hero_badge: "✦ Der Mac-Cleaner dem Power-User vertrauen · Apple-notarisiert · 7 Tage kostenlos",
             hero_h1a: "Mehr Speicher.", hero_h1b: "Schnellerer Mac.",
             hero_sub: "MacCare findet und entfernt bis zu 20 GB versteckten Datenmüll wie alte Caches, fehlerhafte Logs und vergessene Duplikate. Dein Mac läuft schneller mit mehr freiem Speicher, in unter 2 Minuten.",
             hero_cta: "⬇ Kostenlos testen", hero_secondary: "Funktionen ansehen →",
@@ -1363,12 +1427,20 @@
             cmp_confirm: "Bestätigungsdialog mit Risiko",
             // Pricing
             price_label: "Preise", price_title: "Einfach, fair.",
-            price_desc: "Keine Tricks, keine versteckten Gebühren. 7 Tage kostenlos, dann ein einfacher Preis für alles.",
+            price_desc: "Keine Tricks. 7 Tage kostenlos testen, dann Plan wählen.",
             price_plan: "MacCare Pro", price_period: "7 Tage kostenlos · Jederzeit kündbar",
             price_f1: "Alle Funktionen inklusive", price_f2: "Audio Producer Mode",
             price_f3: "Unbegrenzte Scans & Bereinigungen", price_f4: "Menüleisten-Monitor",
             price_f5: "TreeMap Speicher-Visualisierung", price_f6: "Vollständiger App-Deinstaller",
             price_f7: "Aktivitäts-Log", price_f8: "Alle zukünftigen Updates",
+            price_f9: "Keine wiederkehrenden Zahlungen, niemals",
+            price_annual_badge: "Am flexibelsten", price_annual_name: "MacCare Pro",
+            price_annual_period: "/ Jahr", price_annual_trial: "7 Tage kostenlos · Jederzeit kündbar",
+            price_annual_cta: "⬇ Kostenlos testen",
+            price_annual_sub: "7 Tage kostenlos · Jederzeit kündbar",
+            price_lifetime_badge: "Bestes Angebot", price_lifetime_name: "MacCare Lifetime",
+            price_lifetime_period: "einmalig", price_lifetime_sub: "Eine Zahlung. Updates für immer.",
+            price_lifetime_cta: "⬇ Lifetime kaufen",
             price_cta: "⬇ Kostenlos testen",
             price_meta: "Apple-notarisiert · macOS 14+ · 1,3 MB",
             footer_copy: "MacCare ist nicht mit Apple Inc. oder MacPaw verbunden."
