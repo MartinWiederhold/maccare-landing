@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Clean Xcode Cache and Free Up 30-100 GB on Your Mac</title>
+    <meta name="description" content="Xcode eating all your storage? Here's how to safely clean DerivedData, iOS DeviceSupport, simulators, and archives. Step-by-step Terminal commands to reclaim 30-100 GB.">
+    <meta name="keywords" content="xcode cache clean, clear derived data xcode, xcode disk space, xcode storage mac, delete xcode cache safely, xcode deriveddata, ios devicesupport">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="canonical" href="https://www.getmaccare.com/xcode-cache-clean">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="How to Clean Xcode Cache and Free Up 30-100 GB">
+    <meta name="robots" content="index, follow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg: #0B0518; --accent: #D946EF; --accent-hi: #F472B6; --green: #4ADE80; --text: #FFFFFF; --text-2: rgba(255,255,255,0.65); --text-3: rgba(255,255,255,0.4); --surface: rgba(255,255,255,0.04); --border: rgba(255,255,255,0.08); }
+        body { font-family: 'DM Sans', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; }
+        .ambient { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .ambient .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.15; }
+        .ambient .o1 { width: 500px; height: 500px; background: #A21CAF; top: -150px; right: -100px; }
+        .ambient .o2 { width: 400px; height: 400px; background: #7C3AED; bottom: 30%; left: -100px; }
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; backdrop-filter: blur(20px); background: rgba(11,5,24,0.8); border-bottom: 1px solid var(--border); }
+        .nav-logo { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 700; text-decoration: none; color: white; }
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-links a { color: var(--text-2); text-decoration: none; font-size: 14px; font-weight: 500; }
+        .nav-cta { background: linear-gradient(135deg, var(--accent), #A21CAF); color: white !important; padding: 8px 20px; border-radius: 100px; font-weight: 600 !important; }
+        .hero { padding: 140px 24px 60px; text-align: center; max-width: 800px; margin: 0 auto; }
+        .hero .badge { display: inline-block; padding: 6px 16px; background: rgba(217,70,239,0.12); border: 1px solid rgba(217,70,239,0.25); border-radius: 100px; font-size: 13px; color: var(--accent-hi); margin-bottom: 20px; }
+        .hero h1 { font-size: clamp(32px, 5vw, 48px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 16px; }
+        .hero p { font-size: 18px; color: var(--text-2); max-width: 600px; margin: 0 auto; }
+        .content { max-width: 740px; margin: 0 auto; padding: 0 24px 100px; }
+        .content h2 { font-size: 28px; font-weight: 700; margin: 56px 0 16px; }
+        .content h3 { font-size: 20px; font-weight: 600; margin: 40px 0 12px; color: var(--accent-hi); }
+        .content p { font-size: 16px; color: var(--text-2); margin-bottom: 16px; }
+        .content ul { margin: 0 0 20px 20px; color: var(--text-2); }
+        .content li { margin-bottom: 8px; font-size: 15px; }
+        .content strong { color: var(--text); }
+        .code-block { background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; margin: 16px 0 24px; font-family: 'SF Mono', Monaco, monospace; font-size: 14px; color: var(--green); overflow-x: auto; line-height: 1.6; }
+        .tip-box { background: rgba(217,70,239,0.06); border: 1px solid rgba(217,70,239,0.15); border-radius: 16px; padding: 24px 28px; margin: 32px 0; }
+        .tip-box .tip-title { font-size: 15px; font-weight: 600; color: var(--accent-hi); margin-bottom: 8px; }
+        .tip-box p { margin-bottom: 0; }
+        .cta-box { background: linear-gradient(135deg, rgba(217,70,239,0.08), rgba(124,58,237,0.06)); border: 1px solid rgba(217,70,239,0.2); border-radius: 20px; padding: 40px; margin: 48px 0; text-align: center; }
+        .cta-box h3 { color: white; margin-top: 0; }
+        .cta-box p { max-width: 500px; margin: 0 auto 20px; }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; background: linear-gradient(135deg, var(--accent), #A21CAF); color: white; border-radius: 100px; font-size: 15px; font-weight: 600; text-decoration: none; }
+        .size-table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+        .size-table th, .size-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); font-size: 14px; }
+        .size-table th { color: var(--text-3); font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .size-table .size { color: var(--accent-hi); font-weight: 600; }
+        footer { padding: 48px 24px; text-align: center; border-top: 1px solid var(--border); }
+        footer p { color: var(--text-3); font-size: 13px; }
+        footer a { color: var(--text-2); text-decoration: none; }
+        @media (max-width: 768px) { nav { padding: 12px 16px; } .nav-links a:not(.nav-cta) { display: none; } }
+    </style>
+</head>
+<body>
+<div class="ambient"><div class="orb o1"></div><div class="orb o2"></div></div>
+<nav>
+    <a href="/" class="nav-logo">✦ MacCare</a>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/best-mac-cleaner-2026">Best Cleaners</a>
+        <a href="/#pricing">Pricing</a>
+        <a href="https://github.com/MartinWiederhold/maccare-releases/releases/download/v1.4.0/MacCare-Installer.dmg" class="nav-cta">Download Free Trial</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="badge">For Developers</div>
+    <h1>How to Clean Xcode Cache and Free Up 30-100 GB</h1>
+    <p>Xcode is one of the biggest storage hogs on any developer's Mac. Here's exactly what you can safely delete and how much space you'll get back.</p>
+</section>
+
+<div class="content">
+
+    <h2>Where Xcode Hides Your Storage</h2>
+    <p>Xcode stores build artifacts, device support files, simulator data, and old archives across multiple locations in your Library. Most developers don't realize how much space this consumes until their Mac runs out.</p>
+    <p>Run this to see the full picture:</p>
+    <div class="code-block">echo "=== DerivedData ===" && du -sh ~/Library/Developer/Xcode/DerivedData 2>/dev/null
+echo "=== iOS DeviceSupport ===" && du -sh ~/Library/Developer/Xcode/iOS\ DeviceSupport 2>/dev/null
+echo "=== watchOS DeviceSupport ===" && du -sh ~/Library/Developer/Xcode/watchOS\ DeviceSupport 2>/dev/null
+echo "=== Simulators ===" && du -sh ~/Library/Developer/CoreSimulator 2>/dev/null
+echo "=== Archives ===" && du -sh ~/Library/Developer/Xcode/Archives 2>/dev/null
+echo "=== Caches ===" && du -sh ~/Library/Caches/com.apple.dt.Xcode 2>/dev/null</div>
+
+    <h2>Typical Space Usage</h2>
+    <table class="size-table">
+        <thead><tr><th>Location</th><th>Typical Size</th><th>Safe to Delete?</th></tr></thead>
+        <tbody>
+            <tr><td>DerivedData</td><td class="size">10-50 GB</td><td>Yes, completely safe. Rebuilds on next compile.</td></tr>
+            <tr><td>iOS DeviceSupport</td><td class="size">2-5 GB per iOS version</td><td>Yes for old iOS versions you no longer test on.</td></tr>
+            <tr><td>CoreSimulator</td><td class="size">5-30 GB</td><td>Delete unavailable simulators. Keep ones you test on.</td></tr>
+            <tr><td>Archives</td><td class="size">2-20 GB</td><td>Yes for old builds you don't need. Keep recent releases.</td></tr>
+            <tr><td>Xcode Caches</td><td class="size">1-5 GB</td><td>Yes, Xcode rebuilds these.</td></tr>
+        </tbody>
+    </table>
+
+    <h2>Step-by-Step Cleanup</h2>
+
+    <h3>1. Delete DerivedData (Biggest Win)</h3>
+    <p>DerivedData contains build products, indexes, and logs for every project you've ever opened. This is almost always the biggest folder and is completely safe to delete.</p>
+    <div class="code-block">rm -rf ~/Library/Developer/Xcode/DerivedData/*</div>
+    <p>Xcode will rebuild the data for any project you open next. Your first build will be slower (cold cache), then back to normal.</p>
+
+    <h3>2. Remove Old iOS DeviceSupport</h3>
+    <p>Every time you connect an iOS device running a new version, Xcode downloads debug symbols for that version. These accumulate over years.</p>
+    <div class="code-block">ls ~/Library/Developer/Xcode/iOS\ DeviceSupport/</div>
+    <p>Delete folders for iOS versions you no longer test against. If you only support iOS 17+, everything below that can go.</p>
+
+    <h3>3. Clean Up Simulators</h3>
+    <p>Remove simulators that are no longer available in your current Xcode version:</p>
+    <div class="code-block">xcrun simctl delete unavailable</div>
+    <p>For a full reset of all simulators (if you want to start fresh):</p>
+    <div class="code-block">xcrun simctl erase all</div>
+
+    <h3>4. Delete Old Archives</h3>
+    <p>Archives are full app builds stored for App Store submissions and crash symbolication. Old ones from previous app versions are usually safe to remove.</p>
+    <p>Open Xcode → Window → Organizer → Archives tab. Delete old archives you don't need for crash log symbolication.</p>
+
+    <h3>5. Clear Xcode Caches</h3>
+    <div class="code-block">rm -rf ~/Library/Caches/com.apple.dt.Xcode</div>
+
+    <div class="tip-box">
+        <div class="tip-title">Also check: non-Xcode dev tools</div>
+        <p>If you use other dev tools, these can also eat massive storage: Docker (15-60 GB via Docker.raw), node_modules (run <code style="color:var(--green)">npx npkill</code> to find and delete old ones), CocoaPods cache (<code style="color:var(--green)">pod cache clean --all</code>), Homebrew (<code style="color:var(--green)">brew cleanup -s</code>).</p>
+    </div>
+
+    <h2>How to Prevent It from Growing Back</h2>
+    <p>DerivedData will always grow back as you work. The best approach is to clean it periodically (monthly) or use a tool that does it for you with proper risk classification so you know what's safe.</p>
+
+    <div class="cta-box">
+        <h3>MacCare cleans dev caches safely</h3>
+        <p>MacCare scans all Xcode and dev tool caches with color-coded risk levels. Green items are safe to delete, orange items might slow down your next build. You always know exactly what you're removing.</p>
+        <a href="https://github.com/MartinWiederhold/maccare-releases/releases/download/v1.4.0/MacCare-Installer.dmg" class="btn">⬇ Download Free Trial</a>
+        <p style="margin-top: 12px; font-size: 13px; color: var(--text-3);">$29/year or $69 lifetime · macOS 14+ · Apple-notarized</p>
+    </div>
+
+    <div class="tip-box">
+        <div class="tip-title">Related guides</div>
+        <p><a href="/how-to-free-up-space-on-mac" style="color: var(--accent-hi);">How to free up space on Mac (10 methods)</a><br>
+        <a href="/mac-running-slow" style="color: var(--accent-hi);">Mac running slow? 8 fixes</a><br>
+        <a href="/best-mac-cleaner-2026" style="color: var(--accent-hi);">Best Mac cleaner apps 2026</a></p>
+    </div>
+</div>
+
+<footer>
+    <p style="margin-bottom: 8px;"><a href="/">Home</a> · <a href="/vs-cleanmymac">vs CleanMyMac</a> · <a href="/#pricing">Pricing</a></p>
+    <p>© 2026 Martin Wiederhold. MacCare is not affiliated with Apple Inc.</p>
+</footer>
+<script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+</body>
+</html>
