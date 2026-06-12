@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Is "Other" Storage on Mac and How to Clear It (2026)</title>
+    <meta name="description" content="That mysterious 'Other' or 'System Data' eating 20-50 GB on your Mac? Here's exactly what it is, what's safe to delete, and how to reclaim the space.">
+    <meta name="keywords" content="other storage mac, what is other storage on mac, system data mac, clear other storage mac, mac storage other category, reduce system data mac">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="canonical" href="https://www.getmaccare.com/mac-other-storage">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="What Is Other Storage on Mac and How to Clear It">
+    <meta name="robots" content="index, follow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg: #0B0518; --accent: #D946EF; --accent-hi: #F472B6; --green: #4ADE80; --text: #FFFFFF; --text-2: rgba(255,255,255,0.65); --text-3: rgba(255,255,255,0.4); --border: rgba(255,255,255,0.08); }
+        body { font-family: 'DM Sans', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; }
+        .ambient { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .ambient .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.15; }
+        .ambient .o1 { width: 500px; height: 500px; background: #A21CAF; top: -150px; right: -100px; }
+        .ambient .o2 { width: 400px; height: 400px; background: #7C3AED; bottom: 30%; left: -100px; }
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; backdrop-filter: blur(20px); background: rgba(11,5,24,0.8); border-bottom: 1px solid var(--border); }
+        .nav-logo { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 700; text-decoration: none; color: white; }
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-links a { color: var(--text-2); text-decoration: none; font-size: 14px; font-weight: 500; }
+        .nav-cta { background: linear-gradient(135deg, var(--accent), #A21CAF); color: white !important; padding: 8px 20px; border-radius: 100px; font-weight: 600 !important; }
+        .hero { padding: 140px 24px 60px; text-align: center; max-width: 800px; margin: 0 auto; }
+        .hero .badge { display: inline-block; padding: 6px 16px; background: rgba(217,70,239,0.12); border: 1px solid rgba(217,70,239,0.25); border-radius: 100px; font-size: 13px; color: var(--accent-hi); margin-bottom: 20px; }
+        .hero h1 { font-size: clamp(28px, 5vw, 44px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 16px; }
+        .hero p { font-size: 18px; color: var(--text-2); max-width: 600px; margin: 0 auto; }
+        .content { max-width: 740px; margin: 0 auto; padding: 0 24px 100px; }
+        .content h2 { font-size: 28px; font-weight: 700; margin: 56px 0 16px; }
+        .content h3 { font-size: 20px; font-weight: 600; margin: 40px 0 12px; color: var(--accent-hi); }
+        .content p { font-size: 16px; color: var(--text-2); margin-bottom: 16px; }
+        .content ul { margin: 0 0 20px 20px; color: var(--text-2); }
+        .content li { margin-bottom: 8px; font-size: 15px; }
+        .content strong { color: var(--text); }
+        .code-block { background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; margin: 16px 0 24px; font-family: 'SF Mono', Monaco, monospace; font-size: 14px; color: var(--green); overflow-x: auto; line-height: 1.6; }
+        .tip-box { background: rgba(217,70,239,0.06); border: 1px solid rgba(217,70,239,0.15); border-radius: 16px; padding: 24px 28px; margin: 32px 0; }
+        .tip-box .tip-title { font-size: 15px; font-weight: 600; color: var(--accent-hi); margin-bottom: 8px; }
+        .tip-box p { margin-bottom: 0; }
+        .cta-box { background: linear-gradient(135deg, rgba(217,70,239,0.08), rgba(124,58,237,0.06)); border: 1px solid rgba(217,70,239,0.2); border-radius: 20px; padding: 40px; margin: 48px 0; text-align: center; }
+        .cta-box h3 { color: white; margin-top: 0; }
+        .cta-box p { max-width: 500px; margin: 0 auto 20px; }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; background: linear-gradient(135deg, var(--accent), #A21CAF); color: white; border-radius: 100px; font-size: 15px; font-weight: 600; text-decoration: none; }
+        footer { padding: 48px 24px; text-align: center; border-top: 1px solid var(--border); }
+        footer p { color: var(--text-3); font-size: 13px; }
+        footer a { color: var(--text-2); text-decoration: none; }
+        @media (max-width: 768px) { nav { padding: 12px 16px; } .nav-links a:not(.nav-cta) { display: none; } }
+    </style>
+</head>
+<body>
+<div class="ambient"><div class="orb o1"></div><div class="orb o2"></div></div>
+<nav>
+    <a href="/" class="nav-logo">✦ MacCare</a>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/best-mac-cleaner-2026">Best Cleaners</a>
+        <a href="/#pricing">Pricing</a>
+        <a href="https://github.com/MartinWiederhold/maccare-releases/releases/download/v1.4.0/MacCare-Installer.dmg" class="nav-cta">Download Free Trial</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="badge">Updated June 2026</div>
+    <h1>What Is "Other" Storage on Mac and How to Clear It</h1>
+    <p>That mysterious gray bar eating 20-50 GB of your Mac? Here's exactly what it contains and what you can safely delete.</p>
+</section>
+
+<div class="content">
+
+    <h2>What "Other" or "System Data" Actually Is</h2>
+    <p>When you open System Settings > General > Storage, macOS categorizes your files into Apps, Photos, Music, Documents, and other recognizable groups. Everything it can't neatly categorize goes into "System Data" (previously called "Other" in older macOS versions).</p>
+    <p>This category is a catch-all for dozens of different file types, and it's usually the single largest category after Apps. On a typical Mac that hasn't been cleaned in a year, it can easily reach 20-50 GB.</p>
+
+    <h3>What's hiding inside "Other" / System Data:</h3>
+    <ul>
+        <li><strong>Application caches</strong> (browser caches, IDE caches, app temp files): usually 3-15 GB</li>
+        <li><strong>System logs and diagnostic reports</strong>: 500 MB - 3 GB</li>
+        <li><strong>Time Machine local snapshots</strong>: 5-50 GB (the biggest hidden culprit)</li>
+        <li><strong>Spotlight index</strong>: 1-5 GB</li>
+        <li><strong>macOS system caches</strong>: 2-5 GB</li>
+        <li><strong>APFS snapshots</strong>: varies wildly, can be 10+ GB</li>
+        <li><strong>Font files, plugins, extensions</strong>: 200 MB - 1 GB</li>
+        <li><strong>Old iOS backups</strong> (if you've backed up an iPhone): 5-50 GB each</li>
+        <li><strong>Xcode DerivedData</strong> (if you're a developer): 10-50 GB</li>
+        <li><strong>Docker data</strong> (if installed): 15-60 GB</li>
+    </ul>
+
+    <h2>Why Apple Can't Tell You What It Is</h2>
+    <p>Apple's storage analyzer runs at a high level and only recognizes files that belong to specific apps or media types. Anything stored in ~/Library (which is hidden by default) or in system directories gets lumped together. Apple deliberately hides ~/Library because modifying it incorrectly can break apps.</p>
+    <p>The result: you see a giant gray bar labeled "System Data" with no way to drill into it. This is the most common storage frustration for Mac users.</p>
+
+    <h2>How to See What's Actually in "Other"</h2>
+    <p>Apple won't show you, but Terminal will. Run this to see the 20 largest folders in your Library:</p>
+    <div class="code-block">du -sh ~/Library/* 2>/dev/null | sort -rh | head -20</div>
+    <p>For system-level storage hogs:</p>
+    <div class="code-block">sudo du -sh /private/var/* 2>/dev/null | sort -rh | head -15</div>
+    <p>And for Time Machine local snapshots (often the biggest culprit):</p>
+    <div class="code-block">tmutil listlocalsnapshots /</div>
+
+    <h2>What's Safe to Delete</h2>
+
+    <h3>1. Application Caches (3-15 GB)</h3>
+    <p>Browser caches, Slack caches, Spotify caches, IDE caches. These are rebuilt when you reopen the app. Completely safe to delete.</p>
+    <div class="code-block">du -sh ~/Library/Caches
+rm -rf ~/Library/Caches/*</div>
+
+    <h3>2. Time Machine Local Snapshots (5-50 GB)</h3>
+    <p>macOS keeps local backup snapshots even without a Time Machine drive connected. These are often the single biggest component of "Other" storage.</p>
+    <div class="code-block">for snap in $(tmutil listlocalsnapshots / | cut -d'.' -f4); do sudo tmutil deletelocalsnapshots $snap; done</div>
+
+    <h3>3. Old System Logs (500 MB - 3 GB)</h3>
+    <div class="code-block">sudo rm -rf /private/var/log/asl/*.asl
+rm -rf ~/Library/Logs/*</div>
+
+    <h3>4. Old iOS Backups (5-50 GB each)</h3>
+    <p>If you've ever backed up an iPhone or iPad to your Mac, those backups are still sitting there. Check in Finder > your device, or:</p>
+    <div class="code-block">ls -lh ~/Library/Application\ Support/MobileSync/Backup/</div>
+    <p>Delete old backups you don't need through Finder > Manage Backups.</p>
+
+    <h2>What's NOT Safe to Delete</h2>
+    <ul>
+        <li><strong>~/Library/Application Support</strong> for apps you still use (contains databases and settings)</li>
+        <li><strong>~/Library/Keychains</strong> (your passwords)</li>
+        <li><strong>Spotlight index</strong> (it will rebuild, but your Mac will be slow for hours)</li>
+        <li><strong>Audio plugin caches</strong> (AudioUnitCache) if you use any music production software</li>
+        <li><strong>Anything in /System</strong></li>
+    </ul>
+
+    <div class="tip-box">
+        <div class="tip-title">Why Apple's "Manage" button barely helps</div>
+        <p>Apple's built-in storage management (System Settings > Storage > click any category) only offers basic options like emptying Trash, enabling iCloud optimization, and removing old media. It doesn't touch caches, logs, Time Machine snapshots, or app remnants. That's why "Other" stays large even after clicking every Manage option.</p>
+    </div>
+
+    <div class="cta-box">
+        <h3>MacCare shows you exactly what "Other" contains</h3>
+        <p>MacCare's visual TreeMap breaks down your entire disk so you can see exactly where your space went. Every item gets a risk classification, so you know what's safe to delete. No more guessing what's hiding in that gray bar.</p>
+        <a href="https://github.com/MartinWiederhold/maccare-releases/releases/download/v1.4.0/MacCare-Installer.dmg" class="btn">⬇ Download Free Trial</a>
+        <p style="margin-top: 12px; font-size: 13px; color: var(--text-3);">$29/year or $69 lifetime · macOS 14+ · Apple-notarized</p>
+    </div>
+
+    <div class="tip-box">
+        <div class="tip-title">Related guides</div>
+        <p><a href="/how-to-free-up-space-on-mac" style="color: var(--accent-hi);">How to free up space on Mac (10 methods)</a><br>
+        <a href="/mac-running-slow" style="color: var(--accent-hi);">Mac running slow? 8 fixes</a><br>
+        <a href="/best-mac-cleaner-2026" style="color: var(--accent-hi);">Best Mac cleaner apps 2026</a><br>
+        <a href="/xcode-cache-clean" style="color: var(--accent-hi);">Clean Xcode cache (30-100 GB)</a></p>
+    </div>
+</div>
+
+<footer>
+    <p style="margin-bottom: 8px;"><a href="/">Home</a> · <a href="/vs-cleanmymac">vs CleanMyMac</a> · <a href="/#pricing">Pricing</a></p>
+    <p>© 2026 Martin Wiederhold. MacCare is not affiliated with Apple Inc.</p>
+</footer>
+<script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+</body>
+</html>

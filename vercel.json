@@ -9,6 +9,9 @@
     { "source": "/thanks", "destination": "/thanks.html" },
     { "source": "/xcode-cache-clean", "destination": "/xcode-cache-clean.html" },
     { "source": "/logic-pro-storage-full", "destination": "/logic-pro-storage-full.html" },
-    { "source": "/cleanmymac-too-expensive", "destination": "/cleanmymac-too-expensive.html" }
+    { "source": "/cleanmymac-too-expensive", "destination": "/cleanmymac-too-expensive.html" },
+    { "source": "/mac-other-storage", "destination": "/mac-other-storage.html" },
+    { "source": "/is-cleanmymac-safe", "destination": "/is-cleanmymac-safe.html" },
+    { "source": "/mac-cleaner-lifetime", "destination": "/mac-cleaner-lifetime.html" }
   ]
 }
